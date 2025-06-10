@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <header class="header">
+            <h1>March 22, 2025</h1>
+        </header>
+        <section class="summary-cards">
+            <div class="card">
+                <img src="icons/Income.png" alt="Income" />
+                <div class="label">Total Income</div>
+                <div class="value">$2,500</div>
+            </div>
+            <div class="card">
+                <img src="icons/Expence.png" alt="Expense" />
+                <div class="label">Total Expense</div>
+                <div class="value">$1,200</div>
+            </div>
+            <div class="card">
+                <img src="icons/Balance.png" alt="Balance" />
+                <div class="label">Balance</div>
+                <div class="value">$1,300</div>
+            </div>
+        </section>
+
+       <div class="summary-inline">
+        <span class="summary-inline-label">Today’s Expenses:</span>
+        <span class="summary-inline-item">Yesterday: <strong>$150</strong></span>
+        <span class="summary-inline-item">Today: <strong>$120</strong></span>
+        </div>
+
+
+
+        <div class="layout">
+            <aside class="menu">
+                <img role="button" src="icons/Menu_Day.png" alt="Balance" />
+                <img role="button" src="icons/Menu_Week.png" alt="Balance" />
+                <img role="button" src="icons/Menu_Month.png" alt="Balance" />
+                <img role="button" src="icons/Menu_Year.png" alt="Balance" />
+                <img role="button" src="icons/Menu_Custom.png" alt="Balance" />
+            </aside>
+
+            <main class="content">
+                <section class="categories" id="categories">
+                    <!-- JS вставить категорії тут -->
+                </section>
+            </main>
+        </div>
+
+        <script src="renderer.js"></script>
+ 
+    </body>
+</html>
