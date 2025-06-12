@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTracker.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250612101754_Initializer")]
+    [Migration("20250612110241_Initializer")]
     partial class Initializer
     {
         /// <inheritdoc />
@@ -27,6 +27,9 @@ namespace ExpenseTracker.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IconPath")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

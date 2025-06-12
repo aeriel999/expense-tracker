@@ -8,6 +8,8 @@ public class Category
 
     public string? Description { get; set; }
 
+    public string? IconPath { get; set; }
+
     public ICollection<CategoryItem>? CategoryItems { get; set; }
 
 }

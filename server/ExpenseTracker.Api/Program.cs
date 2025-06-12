@@ -1,4 +1,5 @@
 using ExpenseTracker.Infrastructure;
+using ExpenseTracker.Infrastructure.Common.Initializers;
 using ExpenseTracker.Infrastructure.Services;
 
 
@@ -28,5 +29,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await ExpenseTrackerInitializer.SeedCategoriesDataAsync(app);
 
 app.Run();
