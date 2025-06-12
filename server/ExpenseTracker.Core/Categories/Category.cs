@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace ExpenseTracker.Core.Categories;
 
-namespace ExpenseTracker.Core.Categories;
 public class Category
 {
     public Guid Id { get; set; }
@@ -13,6 +8,6 @@ public class Category
 
     public string? Description { get; set; }
 
-    public ICollection<CategoryItem>? Items { get; set; }
+    public ICollection<CategoryItem>? CategoryItems { get; set; }
 
 }

@@ -20,5 +20,17 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.CategoryItems)
+            .WithOne(c => c.Category)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        modelBuilder.Entity<CategoryItem>()
+            .HasMany(i => i.Expenses)
+            .WithOne(e => e.CategoryItem)
+            .OnDelete(DeleteBehavior.Restrict);
+ 
+
     }
 }

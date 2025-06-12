@@ -1,15 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExpenseTracker.Core.Categories;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExpenseTracker.Core.Expenses;
+
 public class Expense
 {
     public Guid Id { get; set; }
 
-    public string Item { get; set; } = string.Empty;
+    [Required]
+    public Guid CategoryItemId { get; set; }
+
+
+    [ForeignKey(nameof(CategoryItemId))]
+    public CategoryItem? CategoryItem { get; set; }
 
     public decimal Amount { get; set; }
 
