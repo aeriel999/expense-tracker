@@ -21,7 +21,7 @@ public static class ExpenseTrackerInitializer
                 new()
                 {
                     Name = "Food",
-                    IconPath = "icons/categories/food.png",
+                    IconPath = "food.png",
                     CategoryItems = new List<CategoryItem>
                     {
                         new() { Name = "Meat" },
@@ -36,7 +36,7 @@ public static class ExpenseTrackerInitializer
                 new()
                 {
                     Name = "Entertainment",
-                    // IconPath = "icons/categories/entertainment.png",
+                    IconPath = "entertainment.png",
                     CategoryItems = new List<CategoryItem>
                     {
                         new() { Name = "Alcohol" },

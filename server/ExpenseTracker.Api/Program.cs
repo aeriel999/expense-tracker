@@ -1,6 +1,5 @@
 using ExpenseTracker.Infrastructure;
 using ExpenseTracker.Infrastructure.Common.Initializers;
-using ExpenseTracker.Infrastructure.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
