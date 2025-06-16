@@ -1,3 +1,5 @@
+using ExpenseTracker.Api;
+using ExpenseTracker.Application;
 using ExpenseTracker.Infrastructure;
 using ExpenseTracker.Infrastructure.Common.Initializers;
 
@@ -6,13 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddControllers();
-
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services
+    .AddPresentation()
+    .AddApplication()
+    .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -25,7 +24,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+// app.UseAuthentication(); // якщо згодом буде
+// app.UseAuthorization();  // якщо буде [Authorize]
 
 app.MapControllers();
 
