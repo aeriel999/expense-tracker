@@ -34,7 +34,9 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository<Cate
 
     public async Task<List<Category>?> GetListAsync()
     {
-        return await _dbSet.ToListAsync();
+        return await _dbSet
+         .Include(c => c.CategoryItems)
+         .ToListAsync();
     }
 
     public Task UpdateAsync(Category entity)
@@ -44,10 +46,10 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository<Cate
         return Task.CompletedTask;
     }
 
-    public async Task<List<Category>> GetListWithItemsAsync()
-    {
-        return await _dbSet
-            .Include(c => c.CategoryItems)
-            .ToListAsync();
-    }
+    //public async Task<List<Category>> GetListWithItemsAsync()
+    //{
+    //    return await _dbSet
+    //        .Include(c => c.CategoryItems)
+    //        .ToListAsync();
+    //}
 }
