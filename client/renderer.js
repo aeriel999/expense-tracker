@@ -1,27 +1,22 @@
-// renderer.js
-const store = require('./store');
-const { fetchCategories } = require('./categoriesSlice');
+import { fetchCategories } from "./features/categories/categoriesService.js"; // ✅
 
-// Підписка на зміни в стейті
-store.subscribe(() => {
-  const state = store.getState();
-  console.log('Updated State:', state.categories);
-  // Тут можна оновити DOM, наприклад:
-  if (state.categories.status === 'succeeded') {
-    renderCategories(state.categories.items);
-  }
+window.electronAPI.getState().then((state) => {
+    renderCategories(state);
 });
 
-// Виклик завантаження
-store.dispatch(fetchCategories());
+window.electronAPI.onStateChange((state) => renderCategories(state));
 
-// Рендер категорій на сторінці
-function renderCategories(categories) {
-  const container = document.getElementById('category-list');
-  container.innerHTML = '';
-  categories.forEach(category => {
-    const div = document.createElement('div');
-    div.textContent = `${category.name} (${category.items?.join(', ')})`;
-    container.appendChild(div);
-  });
+fetchCategories().then((categories) =>
+    window.electronAPI.dispatch({ type: "SET_CATEGORIES", payload: categories })
+);
+
+function renderCategories(state) {
+    const c = document.getElementById("categories");
+    if (!c) return;
+    c.innerHTML = "";
+    (state.categories || []).forEach((cat) => {
+        const d = document.createElement("div");
+        d.textContent = cat.name;
+        c.appendChild(d);
+    });
 }

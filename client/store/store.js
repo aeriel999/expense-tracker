@@ -1,10 +1,7 @@
-const { configureStore } = require('@reduxjs/toolkit');
-const { categoriesReducer } = require('../features/categories/categoriesSlice');
+const { createStore } = require("redux");
+const rootReducer = require("./reducer");
 
-const store = configureStore({
-  reducer: {
-    categories: categoriesReducer
-  }
-});
+// Створюємо Redux store
+const store = createStore(rootReducer);
 
 module.exports = store;

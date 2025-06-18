@@ -1,32 +1,44 @@
-require('electron-reload')(__dirname, {
-  electron: require(`${__dirname}/node_modules/electron`)
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
+require("dotenv").config();
+const store = require("./store/store");
+
+// 🔧 Отримуємо API URL з .env або дефолтний
+const API_BASE_URL = process.env.API_BASE_URL || "https://localhost:7250/api";
+
+// 📦 Реєструємо всі обробники ДО створення вікна
+ipcMain.handle("redux:get-state", () => store.getState());
+
+ipcMain.on("redux:dispatch", (event, action) => {
+    store.dispatch(action);
+    const newState = store.getState();
+    BrowserWindow.getAllWindows().forEach((win) =>
+        win.webContents.send("redux:state-updated", newState)
+    );
 });
 
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
+// 📡 Обробник для API Base URL
+ipcMain.handle("get-api-base-url", () => API_BASE_URL);
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1200,
-        height: 900,
+        width: 1000,
+        height: 800,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"), // якщо буде треба
-            nodeIntegration: true,
-            contextIsolation: false,
+            preload: path.join(__dirname, "preload.js"),
+            contextIsolation: true,
+            nodeIntegration: false,
+            enableRemoteModule: true, // можна залишити, якщо потрібно
         },
     });
 
     win.loadFile("index.html");
 }
 
-app.whenReady().then(() => {
-    createWindow();
+// 🚀 Запускаємо застосунок
+app.whenReady().then(createWindow);
 
-    app.on("activate", function () {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow();
-    });
-});
-
-app.on("window-all-closed", function () {
+// ❌ Закриваємо застосунок при закритті всіх вікон (на Windows)
+app.on("window-all-closed", () => {
     if (process.platform !== "darwin") app.quit();
 });
