@@ -1,4 +1,6 @@
 import { fetchCategories } from "./features/categories/categoriesService.js"; // ✅
+import { renderCategory } from "./components/categoryComponent.js";
+import { createCategory } from "./models/categoryModels.js";
 
 window.electronAPI.getState().then((state) => {
     renderCategories(state);
@@ -10,15 +12,27 @@ fetchCategories().then((categories) =>
     window.electronAPI.dispatch({ type: "SET_CATEGORIES", payload: categories })
 );
 
-function renderCategories(state) {
-    const c = document.getElementById("category-list");
-    if (!c) return;
-    c.innerHTML = "";
-    const categories = state.categories?.$values || [];
-categories.forEach((cat) => {
-  const d = document.createElement("div");
-  d.textContent = cat.name;
-  c.appendChild(d);
-});
+// function renderCategories(state) {
+//     const c = document.getElementById("category-list");
+//     if (!c) return;
+//     c.innerHTML = "";
+//     const categories = state.categories?.$values || [];
+// categories.forEach((cat) => {
+//   const d = document.createElement("div");
+//   d.textContent = cat.name;
+//   c.appendChild(d);
+// });
 
+// }
+
+function renderCategories(state) {
+    const container = document.getElementById("category-list");
+    if (!container) return;
+    container.innerHTML = "";
+
+const categories = (state.categories?.$values || []).map(createCategory);
+    categories.forEach((cat) => {
+        const el = renderCategory(cat);
+        container.appendChild(el);
+    });
 }
