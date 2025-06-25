@@ -1,12 +1,28 @@
 const { contextBridge, ipcRenderer } = require("electron");
+const path = require("path");
+const { getCategories } = require(path.resolve(
+    __dirname,
+    "store",
+    "categories",
+    "category.actions"
+));
 
 contextBridge.exposeInMainWorld("electronAPI", {
-    getState: () => ipcRenderer.invoke("redux:get-state"),
-    dispatch: (action) => ipcRenderer.send("redux:dispatch", action),
-    onStateChange: (callback) => {
-        ipcRenderer.on("redux:state-updated", (_e, newState) =>
-            callback(newState)
-        );
+    getReduxState: () => ipcRenderer.invoke("redux:get-state"),
+
+    onReduxUpdate: (callback) => {
+        ipcRenderer.on("redux:state-updated", (event, newState) => {
+            callback(newState);
+        });
     },
-    getApiBaseUrl: () => ipcRenderer.invoke("get-api-base-url"), // 💡 тепер працює правильно
+
+    dispatch: (action) => {
+        console.log("📤 dispatch action", action);
+        ipcRenderer.send("redux:dispatch", action);
+    },
+
+    dispatchGetCategories: () => {
+        console.log("📦 Dispatch getCategories()");
+        ipcRenderer.send("redux:dispatch", getCategories()); // ✅ відправляє action через ipc
+    },
 });

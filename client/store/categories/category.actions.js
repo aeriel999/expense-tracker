@@ -7,9 +7,12 @@ const getCategories = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await apiClient.get("/Category/get-list-of-categories-with-items-lists");
+      сonsole.log("✅ API response:", response.data); 
       return response.data;
     } catch (error) {
         console.error("[getCategories] ERROR:", err);
+        console.error("❌ Помилка при запиті категорій:", err);
+
       return thunkAPI.rejectWithValue("Cannot fetch categories");
     }
   }

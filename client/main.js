@@ -10,13 +10,13 @@ const API_BASE_URL = process.env.API_BASE_URL || "https://localhost:7250/api";
 ipcMain.handle("redux:get-state", () => store.getState());
 
 ipcMain.on("redux:dispatch", (event, action) => {
-    store.dispatch(action);
+    const store = require("./store/store");
+    store.dispatch(action); // <-- це має бути саме той store, який підключає reducer
     const newState = store.getState();
-    BrowserWindow.getAllWindows().forEach((win) =>
-        win.webContents.send("redux:state-updated", newState)
-    );
+    BrowserWindow.getAllWindows().forEach((win) => {
+        win.webContents.send("redux:state-updated", newState);
+    });
 });
-
 // 📡 Обробник для API Base URL
 ipcMain.handle("get-api-base-url", () => API_BASE_URL);
 
@@ -25,16 +25,15 @@ function createWindow() {
         width: 1000,
         height: 800,
         webPreferences: {
-            preload: path.join(__dirname, "preload.js"),
+            preload: path.join(__dirname, "client", "preload.js"),
             contextIsolation: true,
-            nodeIntegration: false,
+            nodeIntegration: true,
             enableRemoteModule: true, // можна залишити, якщо потрібно
         },
     });
 
     win.loadFile("index.html");
 }
-
 // 🚀 Запускаємо застосунок
 app.whenReady().then(createWindow);
 

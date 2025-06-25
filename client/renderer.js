@@ -1,38 +1,40 @@
-const store = require("./store/store");
-const { getCategories } = require("./store/categories/category.actions");
+// 1. Відправляємо запит на завантаження категорій
+console.log("🔄 Викликано dispatchGetCategories()");
+window.electronAPI.dispatch({
+    type: "category/getCategories/pending",
+    payload: null,
+});
 
-// 1. Завантажуємо категорії при старті
-store.dispatch(getCategories());
-
-// 2. Підписуємось на оновлення store
-store.subscribe(() => {
-    const state = store.getState();
-    const categories = state.category.items;
-
+// 2. Після кожного оновлення store, рендеримо
+window.electronAPI.onReduxUpdate((state) => {
+    const categories = state.category?.items ?? [];
+    console.log("📥 Нові категорії зі store:", state);
     renderCategories(categories);
 });
 
-// 3. Функція рендера
+// 3. Рендер функція
 function renderCategories(categories) {
     const container = document.getElementById("category-list");
-    container.innerHTML = ""; // очищаємо перед новим рендером
+    container.innerHTML = "";
 
-    if (!categories || categories.length === 0) {
+    if (!categories.length) {
         container.innerHTML = "<p>No categories found.</p>";
         return;
     }
+
+    console.log("🖼️ Рендер категорій:", categories);
 
     categories.forEach((cat) => {
         const div = document.createElement("div");
         div.classList.add("category-item");
         div.innerHTML = `
-      <h3>${cat.name}</h3>
-      <ul>
-        ${(cat.items || [])
-            .map((item) => `<li>${item.name} — $${item.amount}</li>`)
-            .join("")}
-      </ul>
-    `;
+            <h3>${cat.name}</h3>
+            <ul>
+                ${(cat.items || [])
+                    .map((item) => `<li>${item.name} — $${item.amount}</li>`)
+                    .join("")}
+            </ul>
+        `;
         container.appendChild(div);
     });
 }

@@ -19,14 +19,17 @@ const categorySlice = createSlice({
         builder
             .addCase(getCategories.pending, (state) => {
                 state.status = "loading";
+                console.log("loading");
             })
             .addCase(getCategories.fulfilled, (state, action) => {
                 state.status = "succeeded";
                 state.items = action.payload;
+                console.log("succeeded", action.payload);
             })
             .addCase(getCategories.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.payload;
+                console.log("failed", state.error);
             });
     },
 });

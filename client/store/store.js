@@ -1,5 +1,5 @@
 const { configureStore } = require("@reduxjs/toolkit");
-const categoryReducer = require("./categories/category.slice");
+const { categoryReducer } = require("./categories/category.slice");
 
 const store = configureStore({
     reducer: {
