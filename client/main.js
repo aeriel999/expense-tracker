@@ -4,7 +4,7 @@ require("dotenv").config();
 const store = require("./store/store");
 
 // 🔧 Отримуємо API URL з .env або дефолтний
-const API_BASE_URL = process.env.API_BASE_URL || "https://localhost:7250/api";
+const API_BASE_URL = process.env.API_BASE_URL;
 
 // 📦 Реєструємо всі обробники ДО створення вікна
 ipcMain.handle("redux:get-state", () => store.getState());

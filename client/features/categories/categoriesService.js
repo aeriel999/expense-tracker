@@ -1,6 +1,7 @@
 export async function fetchCategories() {
     try {
         const BASE_URL = await window.electronAPI.getApiBaseUrl();
+        
         console.log("[fetchCategories] BASE_URL:", BASE_URL); // ✅ перевіримо URL
 
         if (!BASE_URL) throw new Error("API base URL not set");
