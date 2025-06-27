@@ -9,4 +9,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
         );
     },
     getApiBaseUrl: () => ipcRenderer.invoke("get-api-base-url"), // 💡 тепер працює правильно
+    getImageBaseUrl: () => ipcRenderer.invoke("get-image-base-url"),
 });

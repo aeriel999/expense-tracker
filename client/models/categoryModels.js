@@ -2,7 +2,7 @@ export function createCategory(data) {
     return {
         id: data.id,
         name: data.name,
-        icon: data.iconPath || "default-icon.png",
+        icon: data.iconPath || null,
         items: (data.categoryItems?.$values || []).map(createCategoryItem),
     };
 }

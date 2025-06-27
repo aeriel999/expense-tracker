@@ -5,6 +5,7 @@ const store = require("./store/store");
 
 // 🔧 Отримуємо API URL з .env або дефолтний
 const API_BASE_URL = process.env.API_BASE_URL;
+const IMAGE_BASE_URL = process.env.IMAGE_BASE_URL;
 
 // 📦 Реєструємо всі обробники ДО створення вікна
 ipcMain.handle("redux:get-state", () => store.getState());
@@ -19,6 +20,7 @@ ipcMain.on("redux:dispatch", (event, action) => {
 
 // 📡 Обробник для API Base URL
 ipcMain.handle("get-api-base-url", () => API_BASE_URL);
+ipcMain.handle("get-image-base-url", () => IMAGE_BASE_URL);
 
 function createWindow() {
     const win = new BrowserWindow({
