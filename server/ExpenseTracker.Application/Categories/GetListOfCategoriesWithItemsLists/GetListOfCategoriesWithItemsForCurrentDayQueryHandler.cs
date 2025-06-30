@@ -5,10 +5,10 @@ using MediatR;
 
 namespace ExpenseTracker.Application.Categories.GetListOfCategoriesWithItemsLists;
 
-public class GetListOfCategoriesWithItemsQueryHandler(ICategoryRepository<Category> repository)
-    : IRequestHandler<GetListOfCategoriesWithItemsQuery, List<Category>>
+public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(ICategoryRepository repository)
+    : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, List<Category>>
 {
-    public async Task<List<Category>> Handle(GetListOfCategoriesWithItemsQuery request, 
+    public async Task<List<Category>> Handle(GetListOfCategoriesWithItemsForCurrentDayQuery request, 
         CancellationToken cancellationToken)
     {
         var categoryList = await repository.GetListAsync();

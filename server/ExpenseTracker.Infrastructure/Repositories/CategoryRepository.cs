@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class CategoryRepository(AppDbContext context) : ICategoryRepository<Category>
+public class CategoryRepository(AppDbContext context) : ICategoryRepository
 {
     private readonly DbSet<Category> _dbSet = context.Set<Category>();
 

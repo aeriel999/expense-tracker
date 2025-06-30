@@ -10,5 +10,5 @@ public record GetCategoryWithItemsResponse
 
     public string? IconPath { get; set; }
 
-    public List<GetCategoryItemResponse>? CategoryItems { get; set; }
+    public List<GetCategoryItemCurrentDayResponse>? CategoryItems { get; set; }
 }

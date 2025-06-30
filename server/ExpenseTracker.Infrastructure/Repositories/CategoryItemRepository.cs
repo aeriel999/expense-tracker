@@ -6,41 +6,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class CategoryItemRepository(AppDbContext context) : ICategoryRepository<CategoryItem>
+public class CategoryItemRepository(AppDbContext context) : ICategoryItemRepository
 {
     private readonly DbSet<CategoryItem> _dbSet = context.Set<CategoryItem>();
 
-
-    public async Task<CategoryItem?> AddAsync(CategoryItem entity)
+    public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
     {
-        await _dbSet.AddAsync(entity);
-
-        return entity;
+        return await _dbSet
+         .Include(c => c.Expenses)
+         .Where(e => e.)
+         .ToListAsync();
     }
 
-    public async Task DeleteAsync(Guid id)
-    {
-        var category = await GetByIdAsync(id);
-        if (category == null) return;
+    //public async Task<CategoryItem?> AddAsync(CategoryItem entity)
+    //{
+    //    await _dbSet.AddAsync(entity);
 
-        _dbSet.Remove(category);
-    }
+    //    return entity;
+    //}
 
-    public async Task<CategoryItem?> GetByIdAsync(Guid id)
-    {
-        return await _dbSet.Where(p => p.Id == id)
-            .FirstOrDefaultAsync();
-    }
+    //public async Task DeleteAsync(Guid id)
+    //{
+    //    var category = await GetByIdAsync(id);
+    //    if (category == null) return;
 
-    public async Task<List<CategoryItem>?> GetListAsync()
-    {
-        return await _dbSet.ToListAsync();
-    }
+    //    _dbSet.Remove(category);
+    //}
 
-    public Task UpdateAsync(CategoryItem entity)
-    {
-        // TODO chech is it work
-        _dbSet.Update(entity);
-        return Task.CompletedTask;
-    }
+    //public async Task<CategoryItem?> GetByIdAsync(Guid id)
+    //{
+    //    return await _dbSet.Where(p => p.Id == id)
+    //        .FirstOrDefaultAsync();
+    //}
+
+    //public async Task<List<CategoryItem>?> GetListAsync()
+    //{
+    //    return await _dbSet.ToListAsync();
+    //}
+
+    //public Task UpdateAsync(CategoryItem entity)
+    //{
+    //    // TODO chech is it work
+    //    _dbSet.Update(entity);
+    //    return Task.CompletedTask;
+    //}
 }

@@ -13,9 +13,9 @@ namespace ExpenseTracker.Api.Controllers;
 public class CategoryController(ISender mediatr, IMapper mapper) : ControllerBase
 {
     [HttpGet("get-list-of-categories-with-items-lists")]
-    public async Task<IActionResult> GetListOfCategoriesWithItemsListsAsync()
+    public async Task<IActionResult> GetListOfCategoriesWithItemsListsCurrentDayAsync()
     {
-        var getListOfCategories = await mediatr.Send(new GetListOfCategoriesWithItemsQuery());
+        var getListOfCategories = await mediatr.Send(new GetListOfCategoriesWithItemsForCurrentDayQuery());
 
         var mappedResult = mapper.Map<List<GetCategoryWithItemsResponse>>(getListOfCategories);
 

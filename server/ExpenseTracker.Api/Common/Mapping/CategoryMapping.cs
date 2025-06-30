@@ -8,12 +8,12 @@ public class CategoryMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CategoryItem, GetCategoryItemResponse>()
+        config.NewConfig<CategoryItem, GetCategoryItemCurrentDayResponse>()
             .Map(desp => desp.Id, src => src.Id)
             .Map(desp => desp.Name, src => src.Name)
             .Map(desp => desp.Description, src => src.Description);
 
-        config.NewConfig<List<CategoryItem>, List<GetCategoryItemResponse>>();
+        config.NewConfig<List<CategoryItem>, List<GetCategoryItemCurrentDayResponse>>();
 
 
         config.NewConfig<Category, GetCategoryWithItemsResponse>()

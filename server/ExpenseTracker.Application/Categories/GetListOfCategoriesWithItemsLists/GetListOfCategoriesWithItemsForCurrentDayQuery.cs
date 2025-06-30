@@ -3,5 +3,5 @@ using MediatR;
 
 namespace ExpenseTracker.Application.Categories.GetListOfCategoriesWithItemsLists;
 
-public record GetListOfCategoriesWithItemsQuery() : IRequest<List<Category>>;
+public record GetListOfCategoriesWithItemsForCurrentDayQuery() : IRequest<List<Category>>;
  

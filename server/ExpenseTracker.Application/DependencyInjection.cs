@@ -12,7 +12,8 @@ public static class DependencyInjection
     {
         services.AddMappings();
 
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies()));
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
+            AppDomain.CurrentDomain.GetAssemblies()));
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

@@ -1,14 +1,16 @@
-﻿namespace ExpenseTracker.Application.Interfaces.Categories;
+﻿using ExpenseTracker.Core.Categories;
 
-public interface ICategoryRepository<T>
+namespace ExpenseTracker.Application.Interfaces.Categories;
+
+public interface ICategoryRepository 
 {
-    Task<T?> GetByIdAsync(Guid id);
+    Task<Category?> GetByIdAsync(Guid id);
 
-    Task<List<T>?> GetListAsync();
+    Task<List<Category>?> GetListAsync();
 
-    Task<T?> AddAsync(T entity);
+    Task<Category?> AddAsync(Category category);
 
-    Task UpdateAsync(T entity);
+    Task UpdateAsync(Category category);
 
     Task DeleteAsync(Guid id);
 }
