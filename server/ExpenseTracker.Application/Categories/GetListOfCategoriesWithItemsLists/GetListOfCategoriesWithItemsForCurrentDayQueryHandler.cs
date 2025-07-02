@@ -11,7 +11,7 @@ public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(ICategoryRepo
     public async Task<List<Category>> Handle(GetListOfCategoriesWithItemsForCurrentDayQuery request, 
         CancellationToken cancellationToken)
     {
-        var categoryList = await repository.GetListAsync();
+        var categoryList = await repository.GetWithAmountsAsync(DateTime.Now, DateTime.Now);
 
         if (categoryList == null || categoryList.Count == 0)
             throw new DataNotFoundException("No categories with items found.");

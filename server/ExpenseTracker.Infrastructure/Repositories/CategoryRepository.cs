@@ -52,4 +52,12 @@ public class CategoryRepository(AppDbContext context) : ICategoryRepository
     //        .Include(c => c.CategoryItems)
     //        .ToListAsync();
     //}
+
+    public async Task<List<Category>> GetWithAmountsAsync(DateTime from, DateTime to)
+    {
+        return await _dbSet
+        .Include(c => c.CategoryItems!)
+            .ThenInclude(ci => ci.Expenses.Where(e => e.Date >= from && e.Date <= to))
+        .ToListAsync();
+    }
 }

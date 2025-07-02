@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Application.Interfaces.Categories;
+using ExpenseTracker.Application.Interfaces.Expenses;
 using ExpenseTracker.Core.Categories;
 using ExpenseTracker.Infrastructure.Common.Persistence;
 using ExpenseTracker.Infrastructure.Repositories;
@@ -38,6 +39,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICategoryItemRepository, CategoryItemRepository>();
+        services.AddScoped<IExpenseRepository, ExpenseRepository>();
 
         return services;
     }

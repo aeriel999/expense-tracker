@@ -10,13 +10,13 @@ public class CategoryItemRepository(AppDbContext context) : ICategoryItemReposit
 {
     private readonly DbSet<CategoryItem> _dbSet = context.Set<CategoryItem>();
 
-    public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
-    {
-        return await _dbSet
-         .Include(c => c.Expenses)
-         .Where(e => e.)
-         .ToListAsync();
-    }
+    //public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
+    //{
+    //    return await _dbSet
+    //     .Include(c => c.Expenses)
+    //     .Where(e => e.)
+    //     .ToListAsync();
+    //}
 
     //public async Task<CategoryItem?> AddAsync(CategoryItem entity)
     //{
