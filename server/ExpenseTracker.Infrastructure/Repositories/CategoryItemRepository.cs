@@ -33,11 +33,11 @@ public class CategoryItemRepository(AppDbContext context) : ICategoryItemReposit
     //    _dbSet.Remove(category);
     //}
 
-    //public async Task<CategoryItem?> GetByIdAsync(Guid id)
-    //{
-    //    return await _dbSet.Where(p => p.Id == id)
-    //        .FirstOrDefaultAsync();
-    //}
+    public async Task<CategoryItem?> GetByIdAsync(Guid id)
+    {
+        return await _dbSet.Where(p => p.Id == id)
+            .FirstOrDefaultAsync();
+    }
 
     //public async Task<List<CategoryItem>?> GetListAsync()
     //{
