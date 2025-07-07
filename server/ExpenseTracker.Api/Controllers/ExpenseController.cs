@@ -18,8 +18,8 @@ public class ExpenseController(ISender mediatr, IMapper mapper) : ControllerBase
     {
         var addExpense = await mediatr.Send(mapper.Map<AddExpenseCommand>(expense));
 
-        var mappedResult = mapper.Map<List<GetCategoryWithItemsResponse>>(addExpense);
+        var addExpenseResult = mapper.Map<List<GetCategoryWithItemsResponse>>(addExpense);
 
-        return Ok(mappedResult);
+        return Ok(addExpenseResult);
     }
 }

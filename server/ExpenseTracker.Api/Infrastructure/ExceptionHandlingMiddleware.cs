@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using ExpenseTracker.Api.Common.Exceptions;
 using ExpenseTracker.Application.Common.Exceptions;
 
 namespace ExpenseTracker.Api.Infrastructure;
@@ -30,6 +31,8 @@ public class ExceptionHandlingMiddleware
             {
                 DataNotFoundException => (int)HttpStatusCode.NotFound,
                 ValidationException => (int)HttpStatusCode.BadRequest,
+                CategoryItemNotFoundException => (int)HttpStatusCode.NotFound,  
+                ExpenseCreationFailedException => (int)HttpStatusCode.InternalServerError,  
                 _ => (int)HttpStatusCode.InternalServerError
             };
 

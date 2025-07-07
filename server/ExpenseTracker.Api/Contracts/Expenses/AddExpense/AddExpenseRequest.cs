@@ -1,6 +1,12 @@
-﻿namespace ExpenseTracker.Api.Contracts.Expenses.AddExpense;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record AddExpenseRequest(
-    Guid CategoryItemId,
-    decimal Amount);
+namespace ExpenseTracker.Api.Contracts.Expenses.AddExpense;
+
+public class AddExpenseRequest
+{
+   public Guid CategoryItemId { get; set; }
+
+    [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than 0")]
+    public required decimal Amount { get; set; }
+}
  

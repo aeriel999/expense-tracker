@@ -28,6 +28,8 @@ public class ExpenseRepository(AppDbContext context) : IExpenseRepository
     {
         await _dbSet.AddAsync(expense);
 
+        await context.SaveChangesAsync();
+
         return expense;
     }
 
