@@ -8,22 +8,20 @@ namespace ExpenseTracker.Application.Categories.GetListOfCategoriesWithItemsList
 
 public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
     ICategoryRepository repository, IMapper mapper)
-    : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, List<CategoryResults>>
+    : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, List<CategoryResult>>
 {
-    public async Task<List<CategoryResults>> Handle(GetListOfCategoriesWithItemsForCurrentDayQuery request, 
+    public async Task<List<CategoryResult>> Handle(GetListOfCategoriesWithItemsForCurrentDayQuery request, 
         CancellationToken cancellationToken)
     {
         var date = DateTime.UtcNow.Date;
 
-        var categoryList = await repository.GetWithAmountsAsync(date);
+        var categoryList = await repository.GetWithAmountsAsync(date).ConfigureAwait(false);
 
         if (categoryList == null || categoryList.Count == 0)
             throw new DataNotFoundException("No categories with items found.");
 
-        var item = categoryList[0].CategoryItems.ToList()[0];
+        var categoryResultList = mapper.Map<List<CategoryResult>>(categoryList);
 
-        var itemResult = mapper.Map<CategoryItemResult>(item);
-
-        return new List<CategoryResults>();
+        return categoryResultList;
     }
 }

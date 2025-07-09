@@ -1,6 +1,6 @@
 ﻿namespace ExpenseTracker.Application.Categories.Results;
 
-public record CategoryResults(
+public record CategoryResult(
     Guid Id,
     string Title,
     string? Icon,
