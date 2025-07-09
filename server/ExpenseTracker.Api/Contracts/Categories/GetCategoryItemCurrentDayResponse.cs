@@ -10,4 +10,6 @@ public record GetCategoryItemCurrentDayResponse
     public required decimal Value { get; set; }
 
     public string? Description { get; set; }
+
+
 }

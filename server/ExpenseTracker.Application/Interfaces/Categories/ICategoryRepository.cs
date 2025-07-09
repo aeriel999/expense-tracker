@@ -14,5 +14,6 @@ public interface ICategoryRepository
 
     Task DeleteAsync(Guid id);
 
+    Task<List<Category>> GetWithAmountsAsync(DateTime date);
     Task<List<Category>> GetWithAmountsAsync(DateTime from, DateTime to);
 }
