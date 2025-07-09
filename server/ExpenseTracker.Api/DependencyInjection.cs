@@ -15,7 +15,7 @@ public static class DependencyInjection
              });
 
         services.AddSwagger()
-                 .AddMapster();
+                 .AddMappings();
 
         return services;
     }
@@ -54,6 +54,15 @@ public static class DependencyInjection
             //    }
             //});
         });
+
+        return services;
+    }
+
+    public static IServiceCollection AddMappings(this IServiceCollection services)
+    {
+        services.AddMapster();
+
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(DependencyInjection).Assembly);
 
         return services;
     }

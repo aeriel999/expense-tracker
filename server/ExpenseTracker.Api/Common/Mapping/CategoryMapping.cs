@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Api.Contracts.Categories;
+using ExpenseTracker.Application.Categories.Results;
 using ExpenseTracker.Core.Categories;
 using Mapster;
 
@@ -8,22 +9,22 @@ public class CategoryMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CategoryItem, GetCategoryItemCurrentDayResponse>()
+        config.NewConfig<CategoryItemResult, GetCategoryItemCurrentDayResponse>()
             .Map(desp => desp.Id, src => src.Id)
             .Map(desp => desp.Name, src => src.Name)
-            .Map(desp => desp.Description, src => src.Description);
+            .Map(desp => desp.Total, src => src.Total);
 
-        config.NewConfig<List<CategoryItem>, List<GetCategoryItemCurrentDayResponse>>();
+        config.NewConfig<List<CategoryItemResult>, List<GetCategoryItemCurrentDayResponse>>();
 
 
-        config.NewConfig<Category, GetCategoryWithItemsResponse>()
+        config.NewConfig<CategoryResult, GetCategoryWithItemsResponse>()
             .Map(desp => desp.Id, src => src.Id)
             .Map(desp => desp.Name, src => src.Name)
-            .Map(desp => desp.Description, src => src.Description)
             .Map(desp => desp.IconPath, src => src.IconPath)
+            .Map(desp => desp.Amount, src => src.Amount)
             .Map(desp => desp.CategoryItems, src => src.CategoryItems);
 
-        config.NewConfig<List<Category>, List<GetCategoryWithItemsResponse>>();
+        config.NewConfig<List<CategoryResult>, List<GetCategoryWithItemsResponse>>();
 
     }
 }

@@ -2,6 +2,6 @@
 
 public record CategoryItemResult(
     Guid Id,
-    string Label,
+    string Name,
     decimal Total);
  

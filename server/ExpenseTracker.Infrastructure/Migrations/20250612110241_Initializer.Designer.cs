@@ -32,7 +32,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.Property<string>("IconPath")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -53,7 +53,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -61,7 +61,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("CategoryItems");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("ExpenseTracker.Core.Expenses.Expense", b =>
@@ -89,7 +89,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
             modelBuilder.Entity("ExpenseTracker.Core.Categories.CategoryItem", b =>
                 {
                     b.HasOne("ExpenseTracker.Core.Categories.Category", "Category")
-                        .WithMany("CategoryItems")
+                        .WithMany("Items")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -110,7 +110,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
 
             modelBuilder.Entity("ExpenseTracker.Core.Categories.Category", b =>
                 {
-                    b.Navigation("CategoryItems");
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("ExpenseTracker.Core.Categories.CategoryItem", b =>

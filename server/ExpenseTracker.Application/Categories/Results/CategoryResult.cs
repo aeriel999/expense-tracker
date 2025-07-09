@@ -2,8 +2,8 @@
 
 public record CategoryResult(
     Guid Id,
-    string Title,
-    string? Icon,
+    string Name,
+    string? IconPath,
     decimal Amount,
-    List<CategoryItemResult> Items);
+    List<CategoryItemResult> CategoryItems);
  
