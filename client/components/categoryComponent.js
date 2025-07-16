@@ -17,7 +17,7 @@ export function renderCategory(category, IMAGE_URL) {
 
     //category value
     const value = document.createElement("p");
-    value.textContent = "0 UAH";
+    value.textContent = category.amount + " UAH";
 
     // category items list
     const dropdown = document.createElement("select");
@@ -50,7 +50,7 @@ export function renderCategory(category, IMAGE_URL) {
     amountInput.disabled = true; // буде активне лише після вибору підкатегорії
 
     dropdown.addEventListener("change", () => {
-    amountInput.disabled = !dropdown.value;
+        amountInput.disabled = !dropdown.value;
     });
 
     // add button
@@ -68,7 +68,7 @@ export function renderCategory(category, IMAGE_URL) {
     wrapper.appendChild(name);
     wrapper.appendChild(value);
     wrapper.appendChild(dropdown);
-    wrapper.appendChild(amountInput); 
+    wrapper.appendChild(amountInput);
     wrapper.appendChild(addButton);
 
     return wrapper;
