@@ -101,12 +101,16 @@ body {
 .categories .category {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
     padding: 0.75rem;
     background: #fff;
-    border: 1px solid #ddd;
+    border: 1px solid #5d0b0b;
     border-radius: 6px;
     margin-bottom: 0.5rem;
+}
+
+.category .category-icon {
+    background: #2b8c43;
 }
 
 .categories input {
