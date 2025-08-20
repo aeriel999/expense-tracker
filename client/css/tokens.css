@@ -1,0 +1,52 @@
+:root {
+  /* palette */
+  --bg: #f8f5ef;
+  --surface: #ffffff;
+  --surface-alt: #fbf7f0;
+  --stroke: #e5ded2;
+  --stroke-strong: #d1c6b6;
+  --brand: #2e7d32;         /* зелений для акцентів */
+  --brand-weak: #e8f3ea;
+  --text: #1f2328;
+  --text-weak: #616161;
+  --warning: #ef5350;
+
+  /* spacing scale */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px;
+
+  /* radiuses & shadow */
+  --r-sm: 8px; --r-md: 12px; --r-lg: 20px;
+  --shadow-1: 0 2px 8px rgba(0,0,0,.08);
+  --shadow-2: 0 10px 30px rgba(0,0,0,.08);
+
+  /* type (fluid) */
+  --fs-xs: clamp(12px, .85vw, 13px);
+  --fs-sm: clamp(13px, .9vw, 14px);
+  --fs-md: clamp(14px, 1vw, 16px);
+  --fs-lg: clamp(18px, 1.4vw, 22px);
+  --fs-xl: clamp(24px, 2vw, 32px);
+
+  /* controls */
+  --ctl-h: 40px;
+  --btn-sz: 44px;
+
+  /* grid */
+  --col-icon: clamp(60px, 7cqi, 72px);
+  --col-value: clamp(90px, 12cqi, 120px);
+  --col-select-min: 220px; --col-select-max: 360px;
+  --col-input-min: 140px;  --col-input-max: 220px;
+
+  /* content bounds */
+  --content-max: 1180px;
+}
+
+/* Dark theme overrides */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:#171a1f; --surface:#1e232b; --surface-alt:#191d24;
+    --stroke:#2a313c; --stroke-strong:#3a4452;
+    --text:#e6e6e6; --text-weak:#b3b8c2;
+    --brand:#48a868; --brand-weak:#234c33;
+  }
+}

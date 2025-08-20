@@ -1,0 +1,53 @@
+/* Reset & utilities */
+*, *::before, *::after { box-sizing: border-box; }
+:where(input, select, button) { font: inherit; }
+
+/* Base */
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 var(--fs-md)/1.35 system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Layout shell */
+/* base.css */
+.header {
+  position: relative;
+  min-height: clamp(140px, 18vw, 260px);
+  padding: var(--sp-6) var(--sp-6) var(--sp-4);
+  border-bottom: 1px solid var(--stroke);
+  /* фон через before, щоб текст був зверху */
+}
+.header::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: url("../assets/banners/hero-light.svg");
+  background-size: cover;
+  background-position: center;
+  opacity: 1;
+  z-index: 0;
+}
+.header h1 {
+  position: relative; /* поверх банера */
+  z-index: 1;
+  margin: 0;
+  text-align: center;
+  font-size: var(--fs-xl);
+  text-shadow: 0 2px 10px rgba(0,0,0,.12);
+  color: #222;
+}
+
+/* dark version */
+@media (prefers-color-scheme: dark) {
+  .header::before {
+    background-image: url("../assets/banners/hero-dark.svg");
+  }
+}
+ 
+.content {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: var(--sp-6) var(--sp-6) var(--sp-8);
+}

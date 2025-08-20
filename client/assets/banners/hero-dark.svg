@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="260" viewBox="0 0 1920 260">
+  <defs>
+    <linearGradient id="bgD" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1f26"/>
+      <stop offset="1" stop-color="#171a1f"/>
+    </linearGradient>
+    <linearGradient id="hillFarD" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#24323a"/>
+      <stop offset="1" stop-color="#203039"/>
+    </linearGradient>
+    <linearGradient id="hillNearD" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2a4a3a"/>
+      <stop offset="1" stop-color="#2a5b41"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="260" fill="url(#bgD)"/>
+  <circle cx="1580" cy="70" r="28" fill="#f0c566" opacity=".9"/>
+  <path d="M0,165 C200,145 360,155 520,165 C720,175 960,150 1160,165 C1380,180 1600,155 1920,170 L1920,260 L0,260 Z"
+        fill="url(#hillFarD)"/>
+  <path d="M0,190 C220,170 420,195 640,200 C880,206 1080,185 1280,195 C1500,206 1680,190 1920,200 L1920,260 L0,260 Z"
+        fill="url(#hillNearD)"/>
+</svg>

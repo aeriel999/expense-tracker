@@ -1,7 +1,8 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 require("dotenv").config();
 const store = require("./store/store");
+
 
 // 🔧 Отримуємо API URL з .env або дефолтний
 const API_BASE_URL = process.env.API_BASE_URL;
@@ -24,8 +25,9 @@ ipcMain.handle("get-image-base-url", () => IMAGE_BASE_URL);
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1000,
+        width: 1200,
         height: 800,
+        autoHideMenuBar: true,   // <-- Alt показує/ховає
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             contextIsolation: true,
@@ -34,9 +36,24 @@ function createWindow() {
         },
     });
 
+     const template = [
+            { label: 'View', submenu: [
+            { role: 'reload' },
+            { role: 'toggleDevTools' },
+            { type: 'separator' },
+            { role: 'togglefullscreen' }
+            ]},
+            { label: 'Help', submenu: [
+            { label: 'About', click: () => win.webContents.send('menu-about') }
+            ]}
+        ];
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+
     win.loadFile("index.html");
 }
-
+ 
+ 
 // 🚀 Запускаємо застосунок
 app.whenReady().then(createWindow);
 

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="260" viewBox="0 0 1920 260">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff8e9"/>
+      <stop offset="1" stop-color="#f4efe4"/>
+    </linearGradient>
+    <linearGradient id="hillFar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e9f4ea"/>
+      <stop offset="1" stop-color="#d7ecd9"/>
+    </linearGradient>
+    <linearGradient id="hillNear" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#cfe9c9"/>
+      <stop offset="1" stop-color="#a8d39e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- background sky -->
+  <rect width="1920" height="260" fill="url(#bg)"/>
+  <!-- sun -->
+  <circle cx="1580" cy="70" r="34" fill="#ffd98a"/>
+  <circle cx="1580" cy="70" r="34" fill="#ffd98a" opacity=".15"/>
+
+  <!-- far hills -->
+  <path d="M0,165 C200,145 360,155 520,165 C720,175 960,150 1160,165 C1380,180 1600,155 1920,170 L1920,260 L0,260 Z"
+        fill="url(#hillFar)"/>
+  <!-- near hills -->
+  <path d="M0,190 C220,170 420,195 640,200 C880,206 1080,185 1280,195 C1500,206 1680,190 1920,200 L1920,260 L0,260 Z"
+        fill="url(#hillNear)"/>
+</svg>
