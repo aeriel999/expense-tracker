@@ -17,10 +17,16 @@ export function renderCategory(category, IMAGE_URL) {
     //category name
     const name = document.createElement("h3");
     name.textContent = category.name;
+    const nameWrapper = document.createElement("div");
+    nameWrapper.className = "category-name";
+    nameWrapper.appendChild(name);
 
     //category value
     const value = document.createElement("p");
     value.textContent = category.amount + " UAH";
+    const valueWrapper = document.createElement("div");
+    valueWrapper.className = "category-value";
+    valueWrapper.appendChild(value);
 
     // category items list
     const dropdown = document.createElement("select");
@@ -69,9 +75,11 @@ export function renderCategory(category, IMAGE_URL) {
 
     //wrapper.appendChild(icon);
     wrapper.appendChild(iconWrapper);
+    wrapper.appendChild(nameWrapper);
+    wrapper.appendChild(valueWrapper);
 
-    wrapper.appendChild(name);
-    wrapper.appendChild(value);
+    // wrapper.appendChild(name);
+    // wrapper.appendChild(value);
     wrapper.appendChild(dropdown);
     wrapper.appendChild(amountInput);
     wrapper.appendChild(addButton);
