@@ -15,7 +15,7 @@ html, body {
 /* base.css */
 .header {
   position: relative;
-  min-height: clamp(140px, 18vw, 260px);
+  min-height: clamp(80px, 12vw, 160px); /* було 140–260px */
   padding: var(--sp-6) var(--sp-6) var(--sp-4);
   border-bottom: 1px solid var(--stroke);
   /* фон через before, щоб текст був зверху */

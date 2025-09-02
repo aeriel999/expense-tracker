@@ -1,4 +1,5 @@
 export function createCategory(data) {
+    if (!data) return null;
     return {
         id: data.id,
         name: data.name,
@@ -9,6 +10,7 @@ export function createCategory(data) {
 }
 
 export function createCategoryItem(data) {
+    if (!data) return null;
     return {
         id: data.id,
         name: data.name,

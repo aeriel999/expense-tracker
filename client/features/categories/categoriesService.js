@@ -1,25 +1,37 @@
+/**
+ * Завантажує список категорій з бекенду.
+ * Повертає "сирі" дані з API (далі ти вже робиш .map(createCategory) у рендері).
+ */
 export async function fetchCategories() {
-    try {
-        const BASE_URL = await window.electronAPI.getApiBaseUrl();
+  try {
+    // 1) Дістаємо базовий URL бекенду з preload (через IPC до main)
+    const BASE_URL = await window.electronAPI.getApiBaseUrl();
+    console.log("[fetchCategories] BASE_URL:", BASE_URL); // ✅ дебаг
 
-        console.log("[fetchCategories] BASE_URL:", BASE_URL); // ✅ перевіримо URL
+    // 2) Мінімальна перевірка конфігурації (щоб не зробити fetch(undefined))
+    if (!BASE_URL) throw new Error("API base URL not set");
 
-        if (!BASE_URL) throw new Error("API base URL not set");
+    // 3) Формуємо повний шлях до ендпоінта
+    //    (за потреби можна додати .replace(/\/+$/,'') для зрізання зайвих слешів)
+    const url = `${BASE_URL}/Category/get-list-of-categories-with-items-lists`;
+    console.log("[fetchCategories] URL:", url); // ✅ дебаг
 
-        const url = `${BASE_URL}/Category/get-list-of-categories-with-items-lists`;
-        console.log("[fetchCategories] URL:", url); // ✅ перевіримо повну URL-адресу
+    // 4) Власне запит
+    const resp = await fetch(url);
+    console.log("[fetchCategories] HTTP status:", resp.status); // ✅ дебаг
 
-        const resp = await fetch(url);
-        console.log("[fetchCategories] HTTP status:", resp.status); // ✅ статус відповіді
+    // 5) Якщо бек повернув не 2xx → кидаємо помилку з кодом
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
 
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    // 6) Парсимо JSON-тіло відповіді
+    const data = await resp.json();
+    console.log("[fetchCategories] DATA:", data); // ✅ тут очікуємо масив або { $values: [...] } від .NET
 
-        const data = await resp.json();
-        console.log("[fetchCategories] DATA:", data); // ✅ ось тут прийде список категорій
-
-        return data;
-    } catch (e) {
-        console.error("[fetchCategories] ERROR:", e);
-        return [];
-    }
+    // 7) Повертаємо як є (нормалізацію робиш у рендері)
+    return data;
+  } catch (e) {
+    // 8) Логуємо, але не валимо застосунок — повертаємо порожній масив
+    console.error("[fetchCategories] ERROR:", e);
+    return [];
+  }
 }
