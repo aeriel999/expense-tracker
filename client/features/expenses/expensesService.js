@@ -22,7 +22,7 @@ export async function addExpense({ categoryItemId, amount }) {
   if (!BASE_URL) throw new Error("API base URL not set");
 
   // 2) Формуємо повний маршрут до ендпоінта (за потреби заміни на свій)
-  const url = `${BASE_URL}/api/Expense/add-expense`; // змінити, якщо інший шлях на контролері
+  const url = `${BASE_URL}/Expense/add-expense`; // змінити, якщо інший шлях на контролері
 
   // 3) HTTP POST із JSON-тілом. ASP.NET Core case-insensitive до назв полів (camelCase ок).
   const resp = await fetch(url, {
