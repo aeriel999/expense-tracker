@@ -41,6 +41,8 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.MapControllers();
 
-await ExpenseTrackerInitializer.SeedCategoriesDataAsync(app);
+//await ExpenseTrackerInitializer.SeedCategoriesDataAsync(app);
+
+await DbBootstrapper.EnsureMigratedAndSeededAsync(app);
 
 app.Run();

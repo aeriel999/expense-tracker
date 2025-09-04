@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Infrastructure.Common.Persistence;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ExpenseTracker.Core.Categories;
@@ -7,16 +8,21 @@ namespace ExpenseTracker.Infrastructure.Common.Initializers;
 
 public static class ExpenseTrackerInitializer
 {
+    /// <summary>
+    /// Засіває початкові категорії в БД.
+    /// Викликається один раз при старті програми через DbBootstrapper.
+    /// </summary>
     public static async Task SeedCategoriesDataAsync(this IHost host)
     {
+        // Створюємо scope для отримання AppDbContext
         using var scope = host.Services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        await context.Database.EnsureCreatedAsync();
+        // Якщо таблиця Categories вже має записи — сидинг не потрібен
+        if (await context.Categories.AnyAsync()) return;
 
-        if (!context.Categories.Any())
-        {
-            var categories = new List<Category>
+        // Джерело істини: список категорій, які мають бути у БД
+        var categories = new List<Category>
             {
                 new()
                 {
@@ -138,8 +144,7 @@ public static class ExpenseTrackerInitializer
                 }
             };
 
-            context.Categories.AddRange(categories);
-            await context.SaveChangesAsync();
-        }
+        context.Categories.AddRange(categories);
+        await context.SaveChangesAsync();
     }
 }

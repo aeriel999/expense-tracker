@@ -27,10 +27,16 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(opt =>
         {
-            opt.UseSqlite(connectionString);
+            opt.UseSqlite(connectionString, b =>
+            {
+                // Вказуємо збірку, де зберігати міграції
+                b.MigrationsAssembly("ExpenseTracker.Infrastructure");
+            });
 
+            // Опційно: щоб запити за замовчуванням були "read-only"
             opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         });
+
 
         return services;
     }
