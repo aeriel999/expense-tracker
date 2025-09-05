@@ -1,5 +1,4 @@
-﻿using ExpenseTracker.Core.Categories;
-using ExpenseTracker.Core.Expenses;
+﻿using ExpenseTracker.Core.Expenses.Current;
 
 namespace ExpenseTracker.Application.Interfaces.Expenses;
 

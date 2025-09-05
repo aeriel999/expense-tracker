@@ -2,7 +2,7 @@
 using ExpenseTracker.Application.Common.Exceptions;
 using ExpenseTracker.Application.Interfaces.Categories;
 using ExpenseTracker.Application.Interfaces.Expenses;
-using ExpenseTracker.Core.Expenses;
+using ExpenseTracker.Core.Expenses.Current;
 using MediatR;
 
 namespace ExpenseTracker.Application.Expenses.AddExpense;

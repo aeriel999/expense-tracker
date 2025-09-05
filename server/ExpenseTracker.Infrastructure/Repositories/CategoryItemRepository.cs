@@ -1,5 +1,5 @@
 ﻿using ExpenseTracker.Application.Interfaces.Categories;
-using ExpenseTracker.Core.Categories;
+using ExpenseTracker.Core.Expenses.Current;
 using ExpenseTracker.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +8,7 @@ namespace ExpenseTracker.Infrastructure.Repositories;
 
 public class CategoryItemRepository(AppDbContext context) : ICategoryItemRepository
 {
-    private readonly DbSet<CategoryItem> _dbSet = context.Set<CategoryItem>();
+    private readonly DbSet<CategoryExpenseItem> _dbSet = context.Set<CategoryExpenseItem>();
 
     //public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
     //{
@@ -33,7 +33,7 @@ public class CategoryItemRepository(AppDbContext context) : ICategoryItemReposit
     //    _dbSet.Remove(category);
     //}
 
-    public async Task<CategoryItem?> GetByIdAsync(Guid id)
+    public async Task<CategoryExpenseItem?> GetByIdAsync(Guid id)
     {
         return await _dbSet.Where(p => p.Id == id)
             .FirstOrDefaultAsync();

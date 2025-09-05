@@ -1,6 +1,5 @@
 ﻿using ExpenseTracker.Application.Interfaces.Expenses;
-using ExpenseTracker.Core.Categories;
-using ExpenseTracker.Core.Expenses;
+using ExpenseTracker.Core.Expenses.Current;
 using ExpenseTracker.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 

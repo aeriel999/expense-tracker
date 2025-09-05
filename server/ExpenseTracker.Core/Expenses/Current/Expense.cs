@@ -1,8 +1,7 @@
-﻿using ExpenseTracker.Core.Categories;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ExpenseTracker.Core.Expenses;
+namespace ExpenseTracker.Core.Expenses.Current;
 
 public class Expense
 {
@@ -13,7 +12,7 @@ public class Expense
 
 
     [ForeignKey(nameof(CategoryItemId))]
-    public CategoryItem? CategoryItem { get; set; }
+    public CategoryExpenseItem? CategoryItem { get; set; }
 
     public decimal Amount { get; set; }
 

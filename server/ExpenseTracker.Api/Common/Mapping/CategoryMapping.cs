@@ -1,6 +1,5 @@
 ﻿using ExpenseTracker.Api.Contracts.Categories;
 using ExpenseTracker.Application.Categories.Results;
-using ExpenseTracker.Core.Categories;
 using Mapster;
 
 namespace ExpenseTracker.Api.Common.Mapping;

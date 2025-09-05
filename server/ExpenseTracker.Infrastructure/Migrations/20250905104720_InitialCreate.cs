@@ -26,18 +26,17 @@ namespace ExpenseTracker.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Incomes",
+                name: "CategoryIncomes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    DateOnly = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    Amount = table.Column<decimal>(type: "TEXT", nullable: false)
+                    CategoryIncomeId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CategoryIncomeName = table.Column<string>(type: "TEXT", nullable: false),
+                    CategoryIncomeDescription = table.Column<string>(type: "TEXT", nullable: true),
+                    IconName = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Incomes", x => x.Id);
+                    table.PrimaryKey("PK_CategoryIncomes", x => x.CategoryIncomeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,6 +56,26 @@ namespace ExpenseTracker.Infrastructure.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Incomes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CategoryIncomeId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    DateOnly = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    Amount = table.Column<decimal>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Incomes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Incomes_CategoryIncomes_CategoryIncomeId",
+                        column: x => x.CategoryIncomeId,
+                        principalTable: "CategoryIncomes",
+                        principalColumn: "CategoryIncomeId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -89,6 +108,11 @@ namespace ExpenseTracker.Infrastructure.Migrations
                 name: "IX_Expenses_CategoryItemId",
                 table: "Expenses",
                 column: "CategoryItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Incomes_CategoryIncomeId",
+                table: "Incomes",
+                column: "CategoryIncomeId");
         }
 
         /// <inheritdoc />
@@ -102,6 +126,9 @@ namespace ExpenseTracker.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "CategoryItems");
+
+            migrationBuilder.DropTable(
+                name: "CategoryIncomes");
 
             migrationBuilder.DropTable(
                 name: "Categories");

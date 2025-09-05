@@ -1,8 +1,8 @@
-﻿using ExpenseTracker.Core.Categories;
+﻿using ExpenseTracker.Core.Expenses.Current;
 
 namespace ExpenseTracker.Application.Interfaces.Categories;
 
 public interface ICategoryItemRepository
 {
-    Task<CategoryItem?> GetByIdAsync(Guid id);
+    Task<CategoryExpenseItem?> GetByIdAsync(Guid id);
 }

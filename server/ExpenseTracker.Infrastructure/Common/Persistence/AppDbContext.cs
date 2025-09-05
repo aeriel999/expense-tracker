@@ -1,6 +1,5 @@
-﻿using ExpenseTracker.Core.Categories;
-using ExpenseTracker.Core.Expenses;
-using ExpenseTracker.Core.Incomes;
+﻿using ExpenseTracker.Core.Expenses.Current;
+using ExpenseTracker.Core.Incomes.Current;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -15,22 +14,31 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     /// <summary>
     /// Категорії витрат (наприклад: Household, Medicine, Utilities).
     /// </summary>
-    public DbSet<Category> Categories { get; set; }
+    public DbSet<CategoryExpense> Categories { get; set; }
+
 
     /// <summary>
     /// Підкатегорії/елементи категорій (наприклад: Electricity в Utilities).
     /// </summary>
-    public DbSet<CategoryItem> CategoryItems { get; set; }
+    public DbSet<CategoryExpenseItem> CategoryItems { get; set; }
+
 
     /// <summary>
     /// Витрати користувача (прив’язані до конкретного CategoryItem).
     /// </summary>
     public DbSet<Expense> Expenses { get; set; }
 
+
     /// <summary>
-    /// Доходи користувача (загальні, не прив’язані до категорій).
+    /// Доходи користувача (транзакції без деталізації по категоріях).
     /// </summary>
     public DbSet<Income> Incomes { get; set; }
+
+
+    /// <summary>
+    /// Категорії доходів (зарплата, подарунок, підробіток тощо).
+    /// </summary>
+    public DbSet<CategoryIncome> CategoryIncomes { get; set; }
 
 
     /// <summary>
@@ -40,19 +48,28 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     {
         base.OnModelCreating(modelBuilder);
 
+        // ===================== EXPENSES =====================
         // Category 1..* CategoryItems
         // Коли видаляємо Category – CategoryItems не видаляються каскадно.
-        modelBuilder.Entity<Category>()
+        modelBuilder.Entity<CategoryExpense>()
             .HasMany(c => c.CategoryItems)
             .WithOne(c => c.Category)
             .OnDelete(DeleteBehavior.Restrict);
 
         // CategoryItem 1..* Expenses
         // Коли видаляємо CategoryItem – Expenses не видаляються каскадно.
-        modelBuilder.Entity<CategoryItem>()
+        modelBuilder.Entity<CategoryExpenseItem>()
             .HasMany(i => i.Expenses)
             .WithOne(e => e.CategoryItem)
             .OnDelete(DeleteBehavior.Restrict);
- 
+
+
+        // ===================== INCOMES =====================
+        // CategoryIncome 1..* Incomes
+        // Коли видаляємо CategoryIncome – Incomes не видаляються каскадно.
+        modelBuilder.Entity<CategoryIncome>()
+            .HasMany(c => c.Incomes)
+            .WithOne(i => i.CategoryIncome)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

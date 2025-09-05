@@ -1,6 +1,6 @@
-﻿namespace ExpenseTracker.Core.Categories;
+﻿namespace ExpenseTracker.Core.Expenses.Current;
 
-public class Category
+public class CategoryExpense
 {
     public Guid Id { get; set; }
 
@@ -10,6 +10,6 @@ public class Category
 
     public string? IconPath { get; set; }
 
-    public ICollection<CategoryItem>? CategoryItems { get; set; }
+    public ICollection<CategoryExpenseItem>? CategoryItems { get; set; }
 
 }

@@ -1,7 +1,7 @@
-﻿using ExpenseTracker.Core.Categories;
+﻿using ExpenseTracker.Core.Expenses.Current;
 using MediatR;
 
 namespace ExpenseTracker.Application.Categories.GetCategoriesWithItemsForCurrentDay;
 
-public record GetCategoriesWithItemsForCurrentDayQuery() : IRequest<List<Category>>;
+public record GetCategoriesWithItemsForCurrentDayQuery() : IRequest<List<CategoryExpense>>;
  

@@ -17,7 +17,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.6");
 
-            modelBuilder.Entity("ExpenseTracker.Core.Categories.Category", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.CategoryExpense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Categories.CategoryItem", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.CategoryExpenseItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.ToTable("CategoryItems");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Expense", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.Expense", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,7 +83,28 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.ToTable("Expenses");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Incomes.Income", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Incomes.Current.CategoryIncome", b =>
+                {
+                    b.Property<Guid>("CategoryIncomeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CategoryIncomeDescription")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CategoryIncomeName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IconName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryIncomeId");
+
+                    b.ToTable("CategoryIncomes");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Core.Incomes.Current.Income", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,24 +113,22 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("CategoryIncomeId")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateOnly>("DateOnly")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryIncomeId");
+
                     b.ToTable("Incomes");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Categories.CategoryItem", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.CategoryExpenseItem", b =>
                 {
-                    b.HasOne("ExpenseTracker.Core.Categories.Category", "Category")
+                    b.HasOne("ExpenseTracker.Core.Expenses.Current.CategoryExpense", "Category")
                         .WithMany("CategoryItems")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -118,9 +137,9 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Expense", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.Expense", b =>
                 {
-                    b.HasOne("ExpenseTracker.Core.Categories.CategoryItem", "CategoryItem")
+                    b.HasOne("ExpenseTracker.Core.Expenses.Current.CategoryExpenseItem", "CategoryItem")
                         .WithMany("Expenses")
                         .HasForeignKey("CategoryItemId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -129,14 +148,30 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.Navigation("CategoryItem");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Categories.Category", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Incomes.Current.Income", b =>
+                {
+                    b.HasOne("ExpenseTracker.Core.Incomes.Current.CategoryIncome", "CategoryIncome")
+                        .WithMany("Incomes")
+                        .HasForeignKey("CategoryIncomeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("CategoryIncome");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.CategoryExpense", b =>
                 {
                     b.Navigation("CategoryItems");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Core.Categories.CategoryItem", b =>
+            modelBuilder.Entity("ExpenseTracker.Core.Expenses.Current.CategoryExpenseItem", b =>
                 {
                     b.Navigation("Expenses");
+                });
+
+            modelBuilder.Entity("ExpenseTracker.Core.Incomes.Current.CategoryIncome", b =>
+                {
+                    b.Navigation("Incomes");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,5 @@
 ﻿using ExpenseTracker.Application.Categories.Results;
-using ExpenseTracker.Core.Categories;
+using ExpenseTracker.Core.Expenses.Current;
 using Mapster;
 
 namespace ExpenseTracker.Application.Common.Mapping;
@@ -8,14 +8,14 @@ public class CategoryMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<CategoryItem, CategoryItemResult>()
+        config.NewConfig<CategoryExpenseItem, CategoryItemResult>()
            .Map(desp => desp.Id, src => src.Id)
            .Map(desp => desp.Name, src => src.Name)
            .Map(desp => desp.Total, src => src.Expenses != null ? src.Expenses.Sum(e => e.Amount) : 0);
 
-        config.NewConfig<List<CategoryItem>, List<CategoryItemResult>>();
+        config.NewConfig<List<CategoryExpenseItem>, List<CategoryItemResult>>();
 
-        config.NewConfig<Category, CategoryResult>()
+        config.NewConfig<CategoryExpense, CategoryResult>()
              .Map(desp => desp.Id, src => src.Id)
              .Map(desp => desp.Name, src => src.Name)
              .Map(desp => desp.IconPath, src => src.IconPath)
@@ -29,6 +29,6 @@ public class CategoryMapping : IRegister
              .Map(desp => desp.CategoryItems, src => src.CategoryItems);  
 
 
-        config.NewConfig<List<Category>, List<CategoryResult>>();
+        config.NewConfig<List<CategoryExpense>, List<CategoryResult>>();
     }
 }

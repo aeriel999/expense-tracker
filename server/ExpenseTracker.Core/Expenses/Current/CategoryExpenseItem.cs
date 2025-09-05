@@ -1,10 +1,9 @@
-﻿using ExpenseTracker.Core.Expenses;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ExpenseTracker.Core.Categories;
+namespace ExpenseTracker.Core.Expenses.Current;
 
-public class CategoryItem
+public class CategoryExpenseItem
 {
     public Guid Id { get; set; }
 
@@ -17,7 +16,7 @@ public class CategoryItem
 
 
     [ForeignKey(nameof(CategoryId))]
-    public Category? Category { get; set; }
+    public CategoryExpense? Category { get; set; }
 
     public ICollection<Expense>? Expenses { get; set; }
 }

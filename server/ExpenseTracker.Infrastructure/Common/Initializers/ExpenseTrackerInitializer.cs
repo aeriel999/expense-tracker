@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ExpenseTracker.Core.Categories;
+using ExpenseTracker.Core.Expenses.Current;
 
 namespace ExpenseTracker.Infrastructure.Common.Initializers;
 
@@ -22,13 +22,13 @@ public static class ExpenseTrackerInitializer
         if (await context.Categories.AnyAsync()) return;
 
         // Джерело істини: список категорій, які мають бути у БД
-        var categories = new List<Category>
+        var categories = new List<CategoryExpense>
             {
                 new()
                 {
                     Name = "Food",
                     IconPath = "food.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Meat" },
                         new() { Name = "Vegetables/Greens" },
@@ -43,7 +43,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Entertainment",
                     IconPath = "entertainment.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Alcohol" },
                         new() { Name = "Fast Food" },
@@ -56,13 +56,13 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Personal",
                     // IconPath = "icons/categories/personal.png",
-                    CategoryItems = new List<CategoryItem>()
+                    CategoryItems = new List<CategoryExpenseItem>()
                 },
                 new()
                 {
                     Name = "Pet",
                     // IconPath = "icons/categories/pet.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Food" },
                         new() { Name = "Vet" },
@@ -74,7 +74,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Medicine",
                     // IconPath = "icons/categories/medicine.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Painkillers" },
                         new() { Name = "Vitamins" },
@@ -85,7 +85,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Hygiene",
                     // IconPath = "icons/categories/hygiene.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Shampoo" },
                         new() { Name = "Soap" },
@@ -98,7 +98,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Household",
                     // IconPath = "icons/categories/household.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Dish Soap" },
                         new() { Name = "Sponges" },
@@ -111,7 +111,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Credit Card",
                     // IconPath = "icons/categories/credit-card.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Payment" },
                         new() { Name = "Interest" },
@@ -122,7 +122,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Utilities",
                     // IconPath = "icons/categories/utilities.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Electricity" },
                         new() { Name = "Water" },
@@ -134,7 +134,7 @@ public static class ExpenseTrackerInitializer
                 {
                     Name = "Communication",
                     // IconPath = "icons/categories/communication.png",
-                    CategoryItems = new List<CategoryItem>
+                    CategoryItems = new List<CategoryExpenseItem>
                     {
                         new() { Name = "Mobile" },
                         new() { Name = "Internet" },

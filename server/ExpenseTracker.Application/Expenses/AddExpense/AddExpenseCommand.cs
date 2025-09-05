@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Core.Expenses;
+﻿using ExpenseTracker.Core.Expenses.Current;
 using MediatR;
 
 namespace ExpenseTracker.Application.Expenses.AddExpense;

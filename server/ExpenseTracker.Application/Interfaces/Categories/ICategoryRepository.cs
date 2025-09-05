@@ -1,19 +1,19 @@
-﻿using ExpenseTracker.Core.Categories;
+﻿using ExpenseTracker.Core.Expenses.Current;
 
 namespace ExpenseTracker.Application.Interfaces.Categories;
 
 public interface ICategoryRepository 
 {
-    Task<Category?> GetByIdAsync(Guid id);
+    Task<CategoryExpense?> GetByIdAsync(Guid id);
 
-    Task<List<Category>?> GetListAsync();
+    Task<List<CategoryExpense>?> GetListAsync();
 
-    Task<Category?> AddAsync(Category category);
+    Task<CategoryExpense?> AddAsync(CategoryExpense category);
 
-    Task UpdateAsync(Category category);
+    Task UpdateAsync(CategoryExpense category);
 
     Task DeleteAsync(Guid id);
 
-    Task<List<Category>> GetWithAmountsAsync(DateTime date);
-    Task<List<Category>> GetWithAmountsAsync(DateTime from, DateTime to);
+    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date);
+    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime from, DateTime to);
 }
