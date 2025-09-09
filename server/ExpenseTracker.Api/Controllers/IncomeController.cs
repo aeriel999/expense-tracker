@@ -1,4 +1,5 @@
-﻿using MapsterMapper;
+﻿using ExpenseTracker.Api.Contracts.Incomes;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,8 +10,8 @@ namespace ExpenseTracker.Api.Controllers;
 public class IncomeController(ISender mediatr, IMapper mapper) : ControllerBase
 {
     //[HttpPost("add-income")]
-    //public async Task<IActionResult> AddIncomeAsync(AddIncomeRequest income)
+    //public async Task<IActionResult> AddIncomeCategoryAsync(AddIncomeCategoryRequest income)
     //{
-    //    return View();
+    //    var addIncomeCategory = await mediatr.Send(mapper.Map(AddIncomeCategoryCommand));
     //}
 }

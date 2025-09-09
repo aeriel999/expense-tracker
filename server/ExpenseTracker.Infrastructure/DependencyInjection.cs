@@ -1,5 +1,4 @@
-﻿using ExpenseTracker.Application.Interfaces.Categories;
-using ExpenseTracker.Application.Interfaces.Expenses;
+﻿using ExpenseTracker.Application.Interfaces.Expenses;
 using ExpenseTracker.Application.Interfaces.Incomes;
 using ExpenseTracker.Infrastructure.Common.Persistence;
 using ExpenseTracker.Infrastructure.Repositories;
@@ -43,12 +42,12 @@ public static class DependencyInjection
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ICategoryItemRepository, CategoryItemRepository>();
+        services.AddScoped<ICategoryExpenseRepository, CategoryRepository>();
+        services.AddScoped<ICategoryExpenseItemRepository, CategoryItemRepository>();
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
         services.AddScoped<IIncomeRepository, IncomeRepository>();
-
-
+        services.AddScoped<ICategoryIncomeRepository, CategoryIncomeRepository>();
+        
         return services;
     }
 }

@@ -23,14 +23,12 @@ public class ExpenseRepository(AppDbContext context) : IExpenseRepository
 
     //    return entity;
     //}
-    public async Task<Expense?> AddAsync(Expense expense)
+    public async Task<Expense> AddAsync(Expense expense)
     {
-        await _dbSet.AddAsync(expense);
+       var entry = await _dbSet.AddAsync(expense);
 
-        await context.SaveChangesAsync();
+       await context.SaveChangesAsync();
 
-        return expense;
+       return entry.Entity;
     }
-
-
 }

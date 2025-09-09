@@ -4,5 +4,5 @@ namespace ExpenseTracker.Application.Interfaces.Expenses;
 
 public interface IExpenseRepository
 {
-    Task<Expense?> AddAsync(Expense expense);
+    Task<Expense> AddAsync(Expense expense);
 }

@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Application.Interfaces.Categories;
+﻿using ExpenseTracker.Application.Interfaces.Expenses;
 using ExpenseTracker.Core.Expenses.Current;
 using ExpenseTracker.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class CategoryItemRepository(AppDbContext context) : ICategoryItemRepository
+public class CategoryItemRepository(AppDbContext context) : ICategoryExpenseItemRepository
 {
     private readonly DbSet<CategoryExpenseItem> _dbSet = context.Set<CategoryExpenseItem>();
 
