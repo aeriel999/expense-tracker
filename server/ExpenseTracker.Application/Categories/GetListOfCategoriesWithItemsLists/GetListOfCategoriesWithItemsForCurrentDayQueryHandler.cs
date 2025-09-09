@@ -14,7 +14,7 @@ public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
     {
         var date = DateTime.UtcNow.Date;
 
-        var categoryList = await repository.GetWithAmountsAsync(date).ConfigureAwait(false);
+        var categoryList = await repository.GetWithAmountsAsync(date, cancellationToken);
 
         if (categoryList == null || categoryList.Count == 0)
             throw new NotFoundException("Category", "with items");

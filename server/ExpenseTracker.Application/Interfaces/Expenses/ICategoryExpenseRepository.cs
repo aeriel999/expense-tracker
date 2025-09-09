@@ -4,17 +4,17 @@ namespace ExpenseTracker.Application.Interfaces.Expenses;
 
 public interface ICategoryExpenseRepository 
 {
-    Task<CategoryExpense?> GetByIdAsync(Guid id);
+    Task<CategoryExpense?> GetByIdAsync(Guid id, CancellationToken ct = default);
 
-    Task<List<CategoryExpense>?> GetListAsync();
+    Task<List<CategoryExpense>> GetListAsync(CancellationToken ct = default);
 
-    Task<CategoryExpense> AddAsync(CategoryExpense category);
+    Task<CategoryExpense> AddAsync(CategoryExpense category, CancellationToken ct = default);
 
-    Task UpdateAsync(CategoryExpense category);
+    Task UpdateAsync(CategoryExpense category, CancellationToken ct = default);
 
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(Guid id, CancellationToken ct = default);
 
-    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date);
+    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date, CancellationToken ct = default);
 
-    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime from, DateTime to);
+    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime from, DateTime to, CancellationToken ct = default);
 }

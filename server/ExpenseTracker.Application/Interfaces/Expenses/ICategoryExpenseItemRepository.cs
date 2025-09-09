@@ -4,5 +4,5 @@ namespace ExpenseTracker.Application.Interfaces.Expenses;
 
 public interface ICategoryExpenseItemRepository
 {
-    Task<CategoryExpenseItem?> GetByIdAsync(Guid id);
+    Task<CategoryExpenseItem?> GetByIdAsync(Guid id, CancellationToken ct = default);
 }

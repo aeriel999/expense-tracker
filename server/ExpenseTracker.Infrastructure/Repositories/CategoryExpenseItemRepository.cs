@@ -6,9 +6,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class CategoryItemRepository(AppDbContext context) : ICategoryExpenseItemRepository
+public class CategoryExpenseItemRepository(AppDbContext context) : ICategoryExpenseItemRepository
 {
     private readonly DbSet<CategoryExpenseItem> _dbSet = context.Set<CategoryExpenseItem>();
+
+
+    public async Task<CategoryExpenseItem?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        return await _dbSet.FirstOrDefaultAsync(p => p.Id == id, ct);
+    }
 
     //public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
     //{
@@ -33,11 +39,7 @@ public class CategoryItemRepository(AppDbContext context) : ICategoryExpenseItem
     //    _dbSet.Remove(category);
     //}
 
-    public async Task<CategoryExpenseItem?> GetByIdAsync(Guid id)
-    {
-        return await _dbSet.Where(p => p.Id == id)
-            .FirstOrDefaultAsync();
-    }
+
 
     //public async Task<List<CategoryItem>?> GetListAsync()
     //{

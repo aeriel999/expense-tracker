@@ -4,5 +4,5 @@ namespace ExpenseTracker.Application.Interfaces.Incomes;
 
 public interface IIncomeRepository
 {
-    Task<Income>AddAsync(Income income);
+    Task<Income>AddAsync(Income income, CancellationToken ct = default);
 }

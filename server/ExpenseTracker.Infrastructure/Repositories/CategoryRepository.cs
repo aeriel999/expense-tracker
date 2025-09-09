@@ -11,44 +11,44 @@ public class CategoryRepository(AppDbContext context) : ICategoryExpenseReposito
     private readonly DbSet<CategoryExpense> _dbSet = context.Set<CategoryExpense>();
 
 
-    public async Task<CategoryExpense> AddAsync(CategoryExpense entity)
+    public async Task<CategoryExpense> AddAsync(CategoryExpense entity, CancellationToken ct = default)
     {
-       var entry = await _dbSet.AddAsync(entity);
+       var entry = await _dbSet.AddAsync(entity, ct);
 
-       await context.SaveChangesAsync();
+       await context.SaveChangesAsync(ct);
 
        return entry.Entity;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Guid id, CancellationToken ct = default)
     {
-        var category = await GetByIdAsync(id);
+        var category = await GetByIdAsync(id, ct);
 
         if (category == null) return;
 
         _dbSet.Remove(category);
 
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(ct);
     }
 
-    public async Task<CategoryExpense?> GetByIdAsync(Guid id)
+    public async Task<CategoryExpense?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
-        return await _dbSet.Where(p => p.Id == id)
-            .FirstOrDefaultAsync();
+        return await _dbSet.FirstOrDefaultAsync(p => p.Id == id, ct);
     }
 
-    public async Task<List<CategoryExpense>?> GetListAsync()
+    public async Task<List<CategoryExpense>> GetListAsync(CancellationToken ct = default)
     {
         return await _dbSet
          .Include(c => c.CategoryItems)
-         .ToListAsync();
+         .ToListAsync(ct);
     }
 
-    public Task UpdateAsync(CategoryExpense entity)
+    public async Task UpdateAsync(CategoryExpense entity, CancellationToken ct = default)
     {
         // TODO chech is it work
         _dbSet.Update(entity);
-        return Task.CompletedTask;
+
+        await context.SaveChangesAsync(ct);
     }
 
     //public async Task<List<Category>> GetListWithItemsAsync()
@@ -58,21 +58,23 @@ public class CategoryRepository(AppDbContext context) : ICategoryExpenseReposito
     //        .ToListAsync();
     //}
 
-    public async Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date)
+    public async Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date, CancellationToken ct = default)
     {
         return await _dbSet
         .Include(c => c.CategoryItems!)
             .ThenInclude(ci => ci.Expenses!.Where(e => e.Date == date))
-        .ToListAsync();
+        .ToListAsync(ct);
     }
-    public async Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime from, DateTime to)
+
+    public async Task<List<CategoryExpense>> GetWithAmountsAsync(
+      DateTime from, DateTime to, CancellationToken ct = default)
     {
         return await _dbSet
-        .Include(c => c.CategoryItems!)
-            .ThenInclude(ci => ci.Expenses)
-            //.Where(e => e.Date >= from && e.Date <= to))
-        .ToListAsync();
+            .AsNoTracking()
+            .AsSplitQuery()
+            .Include(c => c.CategoryItems!)
+                .ThenInclude(ci => ci.Expenses!
+                    .Where(e => e.Date >= from && e.Date <= to))   // filtered include
+            .ToListAsync(ct);
     }
-
-
 }

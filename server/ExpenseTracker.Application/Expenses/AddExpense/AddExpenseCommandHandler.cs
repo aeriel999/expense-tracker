@@ -10,7 +10,7 @@ public class AddExpenseCommandHandler(
 {
     public async Task<Expense> Handle(AddExpenseCommand request, CancellationToken cancellationToken)
     {
-        var categoryItem = await categoryItemRepository.GetByIdAsync(request.CategoryItemId);
+        var categoryItem = await categoryItemRepository.GetByIdAsync(request.CategoryItemId, cancellationToken);
 
         if (categoryItem == null) throw new NotFoundException("CategoryItem", request.CategoryItemId);
 
@@ -21,7 +21,7 @@ public class AddExpenseCommandHandler(
             Date = DateTime.UtcNow.Date,
         };
 
-        var createdExpense = await expenseRepository.AddAsync(expense);
+        var createdExpense = await expenseRepository.AddAsync(expense, cancellationToken);
 
         if (createdExpense == null)
             throw new DomainRuleViolationException(
