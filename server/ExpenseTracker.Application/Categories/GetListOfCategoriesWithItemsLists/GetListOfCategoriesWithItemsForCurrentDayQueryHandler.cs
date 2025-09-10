@@ -9,14 +9,15 @@ public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
     ICategoryExpenseRepository repository, IMapper mapper)
     : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, List<CategoryResult>>
 {
-    public async Task<List<CategoryResult>> Handle(GetListOfCategoriesWithItemsForCurrentDayQuery request, 
+    public async Task<List<CategoryResult>> Handle(
+        GetListOfCategoriesWithItemsForCurrentDayQuery request, 
         CancellationToken cancellationToken)
     {
         var date = DateTime.UtcNow.Date;
 
         var categoryList = await repository.GetWithAmountsAsync(date, cancellationToken);
 
-        if (categoryList == null || categoryList.Count == 0)
+        if (categoryList.Count == 0)
             throw new NotFoundException("Category", "with items");
 
         var categoryResultList = mapper.Map<List<CategoryResult>>(categoryList);

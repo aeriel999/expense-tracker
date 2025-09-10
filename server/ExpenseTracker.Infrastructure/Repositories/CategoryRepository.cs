@@ -58,7 +58,8 @@ public class CategoryRepository(AppDbContext context) : ICategoryExpenseReposito
     //        .ToListAsync();
     //}
 
-    public async Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date, CancellationToken ct = default)
+    public async Task<List<CategoryExpense>> GetWithAmountsAsync(
+        DateTime date, CancellationToken ct = default)
     {
         return await _dbSet
         .Include(c => c.CategoryItems!)
