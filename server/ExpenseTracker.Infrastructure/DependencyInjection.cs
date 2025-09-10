@@ -42,7 +42,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<ICategoryExpenseRepository, CategoryRepository>();
+        services.AddScoped<ICategoryExpenseRepository, CategoryExpenseRepository>();
         services.AddScoped<ICategoryExpenseItemRepository, CategoryExpenseItemRepository>();
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
         services.AddScoped<IIncomeRepository, IncomeRepository>();

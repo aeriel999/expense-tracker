@@ -17,9 +17,9 @@ public class ExpenseRepository(AppDbContext context) : IExpenseRepository
     //     .ToListAsync();
     //}
 
-    //public async Task<CategoryItem?> AddAsync(CategoryItem entity)
+    //public async Task<CategoryItem?> AddExpenseAsync(CategoryItem entity)
     //{
-    //    await _dbSet.AddAsync(entity);
+    //    await _dbSet.AddExpenseAsync(entity);
 
     //    return entity;
     //}

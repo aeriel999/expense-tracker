@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ExpenseTracker.Infrastructure.Repositories;
 
-public class CategoryRepository(AppDbContext context) : ICategoryExpenseRepository
+public class CategoryExpenseRepository(AppDbContext context) : ICategoryExpenseRepository
 {
     private readonly DbSet<CategoryExpense> _dbSet = context.Set<CategoryExpense>();
 
 
-    public async Task<CategoryExpense> AddAsync(CategoryExpense entity, CancellationToken ct = default)
+    public async Task<CategoryExpense> AddExpenseAsync(
+        CategoryExpense entity, CancellationToken ct = default)
     {
        var entry = await _dbSet.AddAsync(entity, ct);
 

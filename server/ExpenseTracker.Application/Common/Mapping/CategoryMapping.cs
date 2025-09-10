@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Application.Categories.Results;
+﻿using ExpenseTracker.Application.Expenses.Categories.Results;
 using ExpenseTracker.Core.Expenses.Current;
 using Mapster;
 

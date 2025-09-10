@@ -1,9 +1,9 @@
-﻿using ExpenseTracker.Application.Categories.Results;
+﻿using ExpenseTracker.Application.Expenses.Categories.Results;
 using ExpenseTracker.Application.Interfaces.Expenses;
 using MapsterMapper;
 using MediatR;
 
-namespace ExpenseTracker.Application.Categories.GetListOfCategoriesWithItemsLists;
+namespace ExpenseTracker.Application.Expenses.Categories.GetListOfCategoriesWithItemsLists;
 
 public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
     ICategoryExpenseRepository repository, IMapper mapper)

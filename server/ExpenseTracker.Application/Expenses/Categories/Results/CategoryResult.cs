@@ -1,4 +1,4 @@
-﻿namespace ExpenseTracker.Application.Categories.Results;
+﻿namespace ExpenseTracker.Application.Expenses.Categories.Results;
 
 public record CategoryResult(
     Guid Id,

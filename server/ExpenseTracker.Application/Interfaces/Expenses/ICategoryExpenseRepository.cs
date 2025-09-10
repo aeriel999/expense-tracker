@@ -8,7 +8,7 @@ public interface ICategoryExpenseRepository
 
     Task<List<CategoryExpense>> GetListAsync(CancellationToken ct = default);
 
-    Task<CategoryExpense> AddAsync(CategoryExpense category, CancellationToken ct = default);
+    Task<CategoryExpense> AddExpenseAsync(CategoryExpense category, CancellationToken ct = default);
 
     Task UpdateAsync(CategoryExpense category, CancellationToken ct = default);
 
