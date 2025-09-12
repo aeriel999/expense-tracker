@@ -4,7 +4,10 @@ namespace ExpenseTracker.Application.Interfaces.Incomes;
 
 public interface ICategoryIncomeRepository
 {
-    Task<CategoryIncome> AddCategoryIncomeAsync(CategoryIncome categoryIncome, CancellationToken ct = default);
+    Task<CategoryIncome> AddCategoryIncomeAsync(
+        CategoryIncome categoryIncome, CancellationToken ct = default);
 
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default);
+
+    Task<List<CategoryIncome>> GetCategoryIncomesListAsync(CancellationToken ct = default);
 }

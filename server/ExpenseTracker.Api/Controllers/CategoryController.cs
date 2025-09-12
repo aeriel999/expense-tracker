@@ -16,11 +16,9 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ControllerBas
     [HttpGet("get-list-of-categories-with-items-lists")]
     public async Task<IActionResult> GetListOfCategoriesWithItemsListsCurrentDayAsync()
     {
-        List<CategoryResult> getListOfCategories = await mediatr.Send(
+        var getListOfCategories = await mediatr.Send(
             new GetListOfCategoriesWithItemsForCurrentDayQuery());
 
-        var mappedResult = mapper.Map<List<GetCategoryWithItemsResponse>>(getListOfCategories);
-
-        return Ok(mappedResult);
+        return Ok(mapper.Map<List<GetCategoryWithItemsResponse>>(getListOfCategories));
     }
 }

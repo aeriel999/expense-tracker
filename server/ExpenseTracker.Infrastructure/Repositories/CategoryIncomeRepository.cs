@@ -26,4 +26,9 @@ public class CategoryIncomeRepository(AppDbContext context) : ICategoryIncomeRep
         return _dbSet.AnyAsync(x =>
             x.CategoryIncomeName.ToUpper() == normalized.ToUpper(), ct);
     }
+
+    public async Task<List<CategoryIncome>> GetCategoryIncomesListAsync(CancellationToken ct = default)
+    {
+        return await _dbSet.ToListAsync(ct);
+    }
 }
