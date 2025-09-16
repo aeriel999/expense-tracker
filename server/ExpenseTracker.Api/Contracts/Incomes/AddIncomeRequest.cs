@@ -1,10 +1,11 @@
-﻿namespace ExpenseTracker.Api.Contracts.Incomes;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ExpenseTracker.Api.Contracts.Incomes;
 
 public class AddIncomeRequest
 {
-    public string Name { get; set; }
+    public Guid CategoryIncomeId { get; set; }
 
-    public string Description { get; set; }
-
-    public decimal Amount { get; set; }
+    [Range(0.01, double.MaxValue, ErrorMessage = "Amount must be greater than 0")]
+    public required decimal Amount { get; set; }
 }

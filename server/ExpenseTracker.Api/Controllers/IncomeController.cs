@@ -1,5 +1,6 @@
 ﻿using ExpenseTracker.Api.Contracts.Incomes;
 using ExpenseTracker.Application.Incomes.Add_CategoryIncome;
+using ExpenseTracker.Application.Incomes.AddIncome;
 using ExpenseTracker.Application.Incomes.GetCategoryIncomesList;
 using MapsterMapper;
 using MediatR;
@@ -11,10 +12,10 @@ namespace ExpenseTracker.Api.Controllers;
 [Route("api/[controller]")]
 public class IncomeController(ISender mediatr, IMapper mapper) : ControllerBase
 {
-    [HttpPost("add-category-income")]
-    public async Task<IActionResult> AddIncomeCategoryAsync(AddIncomeCategoryRequest income)
+    [HttpPost("add-incomeCategory")]
+    public async Task<IActionResult> AddIncomeCategoryAsync(AddIncomeCategoryRequest incomeCategory)
     {
-        var addIncomeCategory = await mediatr.Send(mapper.Map<AddIncomeCategoryCommand>(income));
+        var addIncomeCategory = await mediatr.Send(mapper.Map<AddIncomeCategoryCommand>(incomeCategory));
 
         return Ok(addIncomeCategory);
     }
@@ -25,5 +26,13 @@ public class IncomeController(ISender mediatr, IMapper mapper) : ControllerBase
         var getCategoryIncomesList = await mediatr.Send(new GetCategoryIncomesListQuery());
 
         return Ok(mapper.Map<List<GetCategoryIncomesResponse>>(getCategoryIncomesList));
+    }
+
+    [HttpPost("add-income")]
+    public async Task<IActionResult> AddIncomeAsync(AddIncomeRequest income)
+    {
+        var addIncome = await mediatr.Send(mapper.Map<AddIncomeCommand>(income));
+
+        return Ok(addIncome);
     }
 }

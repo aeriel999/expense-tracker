@@ -19,6 +19,11 @@ public class CategoryIncomeRepository(AppDbContext context) : ICategoryIncomeRep
         return entry.Entity;
     }
 
+    public Task<bool> ExistsByIdAsync(Guid id, CancellationToken ct = default)
+    {
+        return _dbSet.AnyAsync(x => x.CategoryIncomeId == id, ct);
+    }
+
     public Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default)
     {
         var normalized = name.Trim();

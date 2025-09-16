@@ -116,7 +116,7 @@ namespace ExpenseTracker.Infrastructure.Migrations
                     b.Property<Guid>("CategoryIncomeId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("DateOnly")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

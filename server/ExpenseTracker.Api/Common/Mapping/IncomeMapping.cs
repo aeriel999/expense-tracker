@@ -1,4 +1,7 @@
-﻿using ExpenseTracker.Api.Contracts.Incomes;
+﻿using ExpenseTracker.Api.Contracts.Expenses.AddExpense;
+using ExpenseTracker.Api.Contracts.Incomes;
+using ExpenseTracker.Application.Expenses.AddExpense;
+using ExpenseTracker.Application.Incomes.AddIncome;
 using ExpenseTracker.Core.Incomes.Current;
 using Mapster;
 
@@ -16,5 +19,8 @@ public class IncomeMapping : IRegister
 
         config.NewConfig<List<CategoryIncome>, List<GetCategoryIncomesResponse>>();
 
+        config.NewConfig<AddIncomeRequest, AddIncomeCommand>()
+          .Map(desp => desp.CategoryId, src => src.CategoryIncomeId)
+          .Map(desp => desp.Amount, src => src.Amount);
     }
 }

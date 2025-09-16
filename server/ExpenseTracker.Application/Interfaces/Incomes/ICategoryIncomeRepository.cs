@@ -10,4 +10,7 @@ public interface ICategoryIncomeRepository
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct = default);
 
     Task<List<CategoryIncome>> GetCategoryIncomesListAsync(CancellationToken ct = default);
+
+    Task<bool> ExistsByIdAsync(Guid id, CancellationToken ct = default);
+
 }

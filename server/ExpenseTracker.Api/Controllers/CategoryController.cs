@@ -2,7 +2,6 @@
 using MapsterMapper;
 using MediatR;
 using ExpenseTracker.Api.Contracts.Categories;
-using ExpenseTracker.Application.Expenses.Categories.Results;
 using ExpenseTracker.Application.Expenses.Categories.GetListOfCategoriesWithItemsLists;
 
 

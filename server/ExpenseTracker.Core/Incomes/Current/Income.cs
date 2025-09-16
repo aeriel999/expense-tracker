@@ -13,7 +13,7 @@ public class Income
     [ForeignKey(nameof(CategoryIncomeId))]  
     public CategoryIncome? CategoryIncome { get; set; }
 
-    public DateOnly DateOnly { get; set; }
+    public DateTime Date { get; set; }
 
     public required decimal Amount { get; set; }
 }

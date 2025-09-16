@@ -1,8 +1,9 @@
-﻿using ExpenseTracker.Infrastructure.Common.Persistence;
+﻿using ExpenseTracker.Core.Expenses.Current;
+using ExpenseTracker.Core.Incomes.Current;
+using ExpenseTracker.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ExpenseTracker.Core.Expenses.Current;
 
 namespace ExpenseTracker.Infrastructure.Common.Initializers;
 
@@ -146,5 +147,29 @@ public static class ExpenseTrackerInitializer
 
         context.Categories.AddRange(categories);
         await context.SaveChangesAsync();
+
+        // Якщо таблиця CategoryIncomes вже має записи — сидинг не потрібен
+        if (!await context.CategoryIncomes.AnyAsync())
+        {
+            var incomeCategories = new List<CategoryIncome>
+    {
+        new()
+        {
+            CategoryIncomeName = "Salary",
+        },
+        new()
+        {
+            CategoryIncomeName = "Freelance",
+        },
+        new()
+        {
+            CategoryIncomeName = "Investments",
+        }
+    };
+
+            context.CategoryIncomes.AddRange(incomeCategories);
+            await context.SaveChangesAsync();
+        }
+
     }
 }
