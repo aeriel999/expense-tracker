@@ -13,4 +13,7 @@ public interface ICategoryIncomeRepository
 
     Task<bool> ExistsByIdAsync(Guid id, CancellationToken ct = default);
 
+    Task<List<CategoryIncome>> GetCategoryIncomesListWithAmountAsync(
+        DateTime date, CancellationToken ct = default);
+
 }

@@ -36,4 +36,12 @@ public class CategoryIncomeRepository(AppDbContext context) : ICategoryIncomeRep
     {
         return await _dbSet.ToListAsync(ct);
     }
+
+    public Task<List<CategoryIncome>> GetCategoryIncomesListWithAmountAsync(
+        DateTime date, CancellationToken ct = default)
+    {
+        return _dbSet
+            .Include(i => i.Incomes!.Where(c => c.Date.Month == date.Month && c.Date.Year == date.Year))
+            .ToListAsync(ct);
+    }
 }

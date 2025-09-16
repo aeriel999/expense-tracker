@@ -2,6 +2,7 @@
 using ExpenseTracker.Application.Incomes.Add_CategoryIncome;
 using ExpenseTracker.Application.Incomes.AddIncome;
 using ExpenseTracker.Application.Incomes.GetCategoryIncomesList;
+using ExpenseTracker.Application.Incomes.GetCategoryIncomesListWithAmount;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -34,5 +35,14 @@ public class IncomeController(ISender mediatr, IMapper mapper) : ControllerBase
         var addIncome = await mediatr.Send(mapper.Map<AddIncomeCommand>(income));
 
         return Ok(addIncome);
+    }
+
+    [HttpGet("get-category-incomes-list-with-amount")]
+    public async Task<IActionResult> GetCategoryIncomesListWithAmount()
+    {
+        var getCategoryIncomesListWithAmount = await mediatr.Send(
+            new GetCategoryIncomesListWithAmountQuery());
+
+        return Ok(mapper.Map<List<CategoryIncomeResponse>>(getCategoryIncomesListWithAmount));
     }
 }

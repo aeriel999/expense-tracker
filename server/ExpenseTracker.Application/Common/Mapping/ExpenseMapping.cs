@@ -4,7 +4,7 @@ using Mapster;
 
 namespace ExpenseTracker.Application.Common.Mapping;
 
-public class CategoryMapping : IRegister
+public class ExpenseMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {

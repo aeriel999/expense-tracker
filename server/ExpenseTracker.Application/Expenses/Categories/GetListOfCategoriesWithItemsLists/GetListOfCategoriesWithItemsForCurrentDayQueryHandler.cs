@@ -20,8 +20,6 @@ public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
         if (categoryList.Count == 0)
             throw new NotFoundException("Category", "with items");
 
-        var categoryResultList = mapper.Map<List<CategoryResult>>(categoryList);
-
-        return categoryResultList;
+        return mapper.Map<List<CategoryResult>>(categoryList);
     }
 }
