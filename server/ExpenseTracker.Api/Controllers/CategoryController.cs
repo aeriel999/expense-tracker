@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MapsterMapper;
 using MediatR;
-using ExpenseTracker.Api.Contracts.Categories;
 using ExpenseTracker.Application.Expenses.Categories.GetListOfCategoriesWithItemsLists;
 
 
@@ -15,9 +14,9 @@ public class CategoryController(ISender mediatr, IMapper mapper) : ControllerBas
     [HttpGet("get-list-of-categories-with-items-lists")]
     public async Task<IActionResult> GetListOfCategoriesWithItemsListsCurrentDayAsync()
     {
-        var getListOfCategories = await mediatr.Send(
+        var getListOfCategoriesWithAmount = await mediatr.Send(
             new GetListOfCategoriesWithItemsForCurrentDayQuery());
 
-        return Ok(mapper.Map<List<GetCategoryWithItemsResponse>>(getListOfCategories));
+        return Ok(getListOfCategoriesWithAmount);
     }
 }

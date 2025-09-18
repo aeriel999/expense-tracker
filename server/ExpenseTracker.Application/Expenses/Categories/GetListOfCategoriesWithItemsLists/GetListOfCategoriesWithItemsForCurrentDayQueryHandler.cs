@@ -1,15 +1,16 @@
 ﻿using ExpenseTracker.Application.Expenses.Categories.Results;
 using ExpenseTracker.Application.Interfaces.Expenses;
+using ExpenseTracker.Application.Interfaces.Incomes;
 using MapsterMapper;
 using MediatR;
 
 namespace ExpenseTracker.Application.Expenses.Categories.GetListOfCategoriesWithItemsLists;
 
 public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
-    ICategoryExpenseRepository repository, IMapper mapper)
-    : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, List<CategoryResult>>
+    ICategoryExpenseRepository repository, IMapper mapper, IIncomeRepository incomeRepository)
+    : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, GetListCategoriesWithAmountsResult>
 {
-    public async Task<List<CategoryResult>> Handle(
+    public async Task<GetListCategoriesWithAmountsResult> Handle(
         GetListOfCategoriesWithItemsForCurrentDayQuery request, 
         CancellationToken cancellationToken)
     {
@@ -17,9 +18,22 @@ public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
 
         var categoryList = await repository.GetWithAmountsAsync(date, cancellationToken);
 
-        if (categoryList.Count == 0)
-            throw new NotFoundException("Category", "with items");
+        var mappedCategoryList = mapper.Map<List<CategoryResult>>(categoryList);
 
-        return mapper.Map<List<CategoryResult>>(categoryList);
+        decimal expensesAmount = 0;
+
+        foreach (var item in mappedCategoryList)
+        {
+            expensesAmount += item.Amount;
+        }
+
+        var start = new DateTime(date.Year, date.Month, 1);
+        var end = start.AddMonths(1);
+
+        var incomesAmount = await incomeRepository.GetAmountForMonthAsync(start, end, cancellationToken);
+
+        var balance = incomesAmount - expensesAmount;
+
+        return new GetListCategoriesWithAmountsResult(mappedCategoryList, expensesAmount, incomesAmount, balance);
     }
 }

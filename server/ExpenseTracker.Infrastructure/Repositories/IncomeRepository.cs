@@ -17,4 +17,12 @@ public class IncomeRepository(AppDbContext context) : IIncomeRepository
 
         return entry.Entity;
     }
+
+    public async Task<decimal> GetAmountForMonthAsync(DateTime start, DateTime end, CancellationToken ct = default)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(i => i.Date >= start && i.Date < end)          
+            .SumAsync(i => (decimal?)i.Amount, ct) ?? 0m;          
+    }
 }
