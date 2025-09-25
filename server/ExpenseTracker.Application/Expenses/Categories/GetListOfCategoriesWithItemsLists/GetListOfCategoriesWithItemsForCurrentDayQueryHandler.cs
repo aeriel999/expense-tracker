@@ -7,7 +7,8 @@ using MediatR;
 namespace ExpenseTracker.Application.Expenses.Categories.GetListOfCategoriesWithItemsLists;
 
 public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
-    ICategoryExpenseRepository repository, IMapper mapper, IIncomeRepository incomeRepository)
+    ICategoryExpenseRepository repository, IMapper mapper, IIncomeRepository incomeRepository,
+    IExpenseRepository expenseRepository)
     : IRequestHandler<GetListOfCategoriesWithItemsForCurrentDayQuery, GetListCategoriesWithAmountsResult>
 {
     public async Task<GetListCategoriesWithAmountsResult> Handle(
@@ -20,17 +21,12 @@ public class GetListOfCategoriesWithItemsForCurrentDayQueryHandler(
 
         var mappedCategoryList = mapper.Map<List<CategoryResult>>(categoryList);
 
-        decimal expensesAmount = 0;
-
-        foreach (var item in mappedCategoryList)
-        {
-            expensesAmount += item.Amount;
-        }
-
         var start = new DateTime(date.Year, date.Month, 1);
         var end = start.AddMonths(1);
 
-        var incomesAmount = await incomeRepository.GetAmountForMonthAsync(start, end, cancellationToken);
+        var expensesAmount = await expenseRepository.GetExpensesAmountForMonthAsync(start, end, cancellationToken);
+
+        var incomesAmount = await incomeRepository.GetIncomesAmountForMonthAsync(start, end, cancellationToken);
 
         var balance = incomesAmount - expensesAmount;
 

@@ -16,5 +16,6 @@ public interface ICategoryExpenseRepository
 
     Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime date, CancellationToken ct = default);
 
-    Task<List<CategoryExpense>> GetWithAmountsAsync(DateTime from, DateTime to, CancellationToken ct = default);
+    Task<List<CategoryExpense>> GetWithAmountsAsync(
+        DateTime from, DateTime to, CancellationToken ct = default);
 }

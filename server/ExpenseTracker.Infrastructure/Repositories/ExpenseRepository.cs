@@ -31,4 +31,13 @@ public class ExpenseRepository(AppDbContext context) : IExpenseRepository
 
        return entry.Entity;
     }
+
+    public async Task<decimal> GetExpensesAmountForMonthAsync(
+       DateTime start, DateTime end, CancellationToken ct = default)
+    {
+        return await _dbSet
+            .AsNoTracking()
+            .Where(i => i.Date >= start && i.Date < end)
+            .SumAsync(i => (decimal?)i.Amount, ct) ?? 0m;
+    }
 }

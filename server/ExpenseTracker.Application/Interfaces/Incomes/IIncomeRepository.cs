@@ -6,5 +6,5 @@ public interface IIncomeRepository
 {
     Task<Income>AddIncomeAsync(Income income, CancellationToken ct = default);
 
-    Task<decimal>GetAmountForMonthAsync(DateTime start, DateTime end, CancellationToken ct = default); 
+    Task<decimal>GetIncomesAmountForMonthAsync(DateTime start, DateTime end, CancellationToken ct = default); 
 }

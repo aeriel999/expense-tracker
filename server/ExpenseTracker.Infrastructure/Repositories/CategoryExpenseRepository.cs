@@ -79,4 +79,5 @@ public class CategoryExpenseRepository(AppDbContext context) : ICategoryExpenseR
                     .Where(e => e.Date >= from && e.Date <= to))   // filtered include
             .ToListAsync(ct);
     }
+
 }
