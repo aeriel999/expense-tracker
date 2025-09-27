@@ -1,5 +1,4 @@
-﻿using ExpenseTracker.Api.Contracts.Categories;
-using ExpenseTracker.Api.Contracts.Expenses.AddExpense;
+﻿using ExpenseTracker.Api.Contracts.Expenses.AddExpense;
 using ExpenseTracker.Application.Expenses.AddExpense;
 using MapsterMapper;
 using MediatR;
@@ -17,6 +16,6 @@ public class ExpenseController(ISender mediatr, IMapper mapper) : ControllerBase
     {
         var addExpense = await mediatr.Send(mapper.Map<AddExpenseCommand>(expense));
 
-        return Ok(mapper.Map<List<GetCategoryWithItemsResponse>>(addExpense));
+        return Ok(addExpense);
     }
 }

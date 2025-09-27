@@ -9,7 +9,7 @@ public class ExpenseMapping : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<AddExpenseRequest, AddExpenseCommand>()
-           .Map(desp => desp.CategoryItemId, src => src.CategoryItemId)
+           .Map(desp => desp.CategoryId, src => src.CategoryItemId)
            .Map(desp => desp.Amount, src => src.Amount);
     }
 }

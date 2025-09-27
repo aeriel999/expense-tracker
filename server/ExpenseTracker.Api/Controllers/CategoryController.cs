@@ -9,7 +9,7 @@ namespace ExpenseTracker.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CategoryController(ISender mediatr, IMapper mapper) : ControllerBase
+public class CategoryController(ISender mediatr) : ControllerBase
 {
     [HttpGet("get-list-of-categories-with-items-lists")]
     public async Task<IActionResult> GetListOfCategoriesWithItemsListsCurrentDayAsync()

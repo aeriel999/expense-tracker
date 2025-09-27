@@ -34,18 +34,17 @@ function rootReducer(state = initialState, action) {
             };
         }
 
-        // (залишаємо сумісність зі старою дією)
-        case "SET_CATEGORIES": {
-            const p = action.payload ?? [];
-            const arr = Array.isArray(p) ? p : p?.$values || [];
-            return { ...state, categories: arr };
-        }
-
-        case "ADD_EXPENSE_SUCCESS":
+        case "ADD_EXPENSE_SUCCESS": {
+            console.log("State", ...state)
+            const { categoryItemId: categoryId, amount } = action.payload;
             return {
                 ...state,
-                expenses: [action.payload, ...(state.expenses || [])],
+                expensesAmount: (state.expensesAmount ?? 0) + amount,
+                categories: (state.categories || []).map(c =>
+                c.id === categoryId ? { ...c, amount: (c.amount ?? 0) + amount } : c
+                )
             };
+            }
 
         case "INCREMENT":
             return { ...state, count: state.count + 1 };

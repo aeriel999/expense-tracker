@@ -11,9 +11,9 @@ public class CategoryExpenseItemRepository(AppDbContext context) : ICategoryExpe
     private readonly DbSet<CategoryExpenseItem> _dbSet = context.Set<CategoryExpenseItem>();
 
 
-    public async Task<CategoryExpenseItem?> GetByIdAsync(Guid id, CancellationToken ct = default)
+    public async Task<bool> ExistsByIdAsync(Guid id, CancellationToken ct = default)
     {
-        return await _dbSet.FirstOrDefaultAsync(p => p.Id == id, ct);
+        return await _dbSet.AnyAsync(c => c.Id == id, ct);
     }
 
     //public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
