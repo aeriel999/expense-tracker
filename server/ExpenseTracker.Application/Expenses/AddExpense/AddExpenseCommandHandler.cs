@@ -1,16 +1,16 @@
-﻿using ExpenseTracker.Application.Expenses.Categories.GetListOfCategoriesWithItemsLists;
-using ExpenseTracker.Application.Expenses.Categories.Results;
-using ExpenseTracker.Application.Interfaces.Expenses;
+﻿using ExpenseTracker.Application.Interfaces.Expenses;
 using ExpenseTracker.Core.Expenses.Current;
 using MediatR;
 
 namespace ExpenseTracker.Application.Expenses.AddExpense;
 
+
 public class AddExpenseCommandHandler(
     IExpenseRepository expenseRepository, ICategoryExpenseItemRepository categoryItemRepository) 
     : IRequestHandler<AddExpenseCommand, AddExpenseCommandResult>
 {
-    public async Task<AddExpenseCommandResult> Handle(AddExpenseCommand request, CancellationToken cancellationToken)
+    public async Task<AddExpenseCommandResult> Handle(
+        AddExpenseCommand request, CancellationToken cancellationToken)
     {
         if (!await categoryItemRepository.ExistsByIdAsync(request.CategoryId, cancellationToken))
             throw new NotFoundException("CategoryItem", request.CategoryId);
@@ -24,7 +24,10 @@ public class AddExpenseCommandHandler(
 
         var createdExpense = await expenseRepository.AddAsync(expense, cancellationToken);
 
-        return  new AddExpenseCommandResult(request.CategoryId, request.Amount);
+        var categoryId = await categoryItemRepository.GetCategoryIdByCategoryItemIdAsync(
+            createdExpense.CategoryItemId, cancellationToken);
+
+        return new AddExpenseCommandResult(categoryId, request.Amount);
     }
 }
 

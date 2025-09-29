@@ -16,6 +16,20 @@ public class CategoryExpenseItemRepository(AppDbContext context) : ICategoryExpe
         return await _dbSet.AnyAsync(c => c.Id == id, ct);
     }
 
+    public async Task<Guid> GetCategoryIdByCategoryItemIdAsync(Guid id, CancellationToken ct = default)
+    {
+        var categoryId = await _dbSet.AsNoTracking()
+            .Where(ci => ci.Id == id)
+            .Select(ci => (Guid?)ci.CategoryId)
+            .SingleOrDefaultAsync(ct);
+
+        if (categoryId is null)
+            throw new NotFoundException("CategoryExpenseItem", id);
+
+        return categoryId.Value;
+    }
+
+
     //public async Task<List<CategoryItem>?> GetListAsync(Guid categoryItemId)
     //{
     //    return await _dbSet

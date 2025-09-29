@@ -3,7 +3,6 @@ import { fetchMainState } from "./features/categories/categoriesService.js"; // 
 import { renderCategory } from "./components/categoryComponent.js"; // ✅ будує DOM для одного рядка категорії
 import { createExpenseCategory } from "./models/expenseModels.js"; // ✅ адаптер: сирі API-дані -> модель для UI
 import { addExpense } from "./features/expenses/expensesService.js"; // API: створення витрати
-import { createExpense } from "./models/expenseModels.js"; // Модель витрати: приводить відповідь POST /api/expenses до єдиного формату
 
 // ⬇️ Базовий URL для іконок/зображень із preload (через contextBridge)
 const IMAGE_URL = await window.electronAPI.getImageBaseUrl();
@@ -23,28 +22,29 @@ window.electronAPI.onStateChange((state) => {
 });
 
  // 3) Завантажуємо main state і розкладаємо у стор (категорії + суми)
-fetchMainState().then((dto) => {
-  const payload = {
-    // лишаємо форму з $values, щоб твій renderCategories не чіпати
-    categories: Array.isArray(dto?.categoryResultsList)
-      ? { $values: dto.categoryResultsList }
-      : (dto?.categoryResultsList ?? { $values: [] }),
-
-    expensesAmount: dto?.expensesAmount ?? dto?.ExpensesAmount ?? 0,
-    incomesAmount:  dto?.incomesAmount  ?? dto?.IncomesAmount  ?? 0,
-    balance:        dto?.balance        ?? dto?.Balance
-                 ?? ((dto?.incomesAmount ?? dto?.IncomesAmount ?? 0)
-                   - (dto?.expensesAmount ?? dto?.ExpensesAmount ?? 0)),
-  };
+fetchMainState().then(dto => {
+  const categories =
+    (dto?.categoryResultsList?.$values ?? dto?.categoryResultsList ?? [])
+      .map(createExpenseCategory); // ← createExpenseCategory мапить ТІЛЬКИ items
 
   window.electronAPI.dispatch({
     type: "SET_CATEGORIES_WITH_AMOUNTS",
-    payload,
+    payload: {
+      categories,                                  // ← вже звичайний масив МОДЕЛЕЙ
+      expensesAmount: Number(dto?.expensesAmount ?? dto?.ExpensesAmount ?? 0),
+      incomesAmount:  Number(dto?.incomesAmount  ?? dto?.IncomesAmount  ?? 0),
+      balance: Number(dto?.balance ?? (
+        (dto?.incomesAmount ?? dto?.IncomesAmount ?? 0) -
+        (dto?.expensesAmount ?? dto?.ExpensesAmount ?? 0)
+      )),
+    },
   });
 });
 
+
 // ---- Рендер карток сум (Income / Expense / Balance) ----
 const money = (x) =>
+  
   `$${Number(x ?? 0).toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
 
 function renderSummary(state) {
@@ -64,24 +64,18 @@ function renderSummary(state) {
  * Перемальовує список категорій у контейнері #category-list.
  * @param {object} state — поточний Redux-стан з preload/main.
  */
-async function renderCategories(state) {
-    const container = document.getElementById("category-list");
-    if (!container) return;
+function renderCategories(state) {
+  const container = document.getElementById("category-list");
+  if (!container) return;
+  container.innerHTML = "";
 
-    // очищаємо попередній вміст перед повним перерендером
-    container.innerHTML = "";
-
-    // БЕК .NET інколи повертає масиви у вигляді { $values: [...] } → дістаємо їх безпечно
-    const categories = (state.categories?.$values || []).map(
-        createExpenseCategory
-    );
-
-    // для кожної категорії будуємо DOM-елемент і додаємо у контейнер
-    categories.forEach((cat) => {
-        const el = renderCategory(cat, IMAGE_URL); // renderCategory має створити .category-row з усіма елементами
-        container.appendChild(el);
-    });
+  const categories = state.categories; // ← масив уже готових моделей
+  categories.forEach(cat => {
+    const el = renderCategory(cat, IMAGE_URL);
+    container.appendChild(el);
+  });
 }
+
 
 
 // --------- Додавання витрати (клік на «+») ---------
@@ -131,10 +125,11 @@ document.addEventListener("click", async (e) => {
         const raw = await addExpense({ categoryItemId, amount }); // сервіс
         console.log("raw", raw);
 
-        const expense = createExpense(raw); // мінімальна модель
+      //  const expense = createExpense(raw); // мінімальна модель
+
         window.electronAPI.dispatch({
             type: "ADD_EXPENSE_SUCCESS",
-            payload: expense,
+            payload: { categoryId: raw.expenseCategoryId, amount },
         });
         amountInput.value = "";
     } catch (err) {

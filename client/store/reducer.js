@@ -6,7 +6,7 @@
 const initialState = {
     count: 0,
     categories: [],
-    expenses: [],
+    // expenses: [],
     expensesAmount: 0,
     incomesAmount: 0,
     balance: 0,
@@ -35,16 +35,20 @@ function rootReducer(state = initialState, action) {
         }
 
         case "ADD_EXPENSE_SUCCESS": {
-            console.log("State", ...state)
-            const { categoryItemId: categoryId, amount } = action.payload;
-            return {
-                ...state,
-                expensesAmount: (state.expensesAmount ?? 0) + amount,
-                categories: (state.categories || []).map(c =>
-                c.id === categoryId ? { ...c, amount: (c.amount ?? 0) + amount } : c
-                )
-            };
-            }
+            const { categoryId, amount } = action.payload || {};
+      const inc = Number(amount) || 0;
+
+      const nextExpenses = (state.expensesAmount ?? 0) + inc;
+
+      return {
+        ...state,
+        expensesAmount: nextExpenses,
+        balance: (state.incomesAmount ?? 0) - nextExpenses,
+        categories: (state.categories ?? []).map(c =>
+          c.id === categoryId ? { ...c, amount: (c.amount ?? 0) + inc } : c
+        ),
+      };
+        }
 
         case "INCREMENT":
             return { ...state, count: state.count + 1 };
