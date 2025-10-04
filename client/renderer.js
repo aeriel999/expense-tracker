@@ -3,6 +3,10 @@ import { fetchMainState } from "./features/categories/categoriesService.js"; // 
 import { renderCategory } from "./components/categoryComponent.js"; // ✅ будує DOM для одного рядка категорії
 import { createExpenseCategory } from "./models/expenseModels.js"; // ✅ адаптер: сирі API-дані -> модель для UI
 import { addExpense } from "./features/expenses/expensesService.js"; // API: створення витрати
+import { parseAmount } from "./utils/parseAmount.js";
+import { reviveInput } from "./utils/reviveInput.js";
+import { showRowError } from "./components/rowError.js";
+
 
 // ⬇️ Базовий URL для іконок/зображень із preload (через contextBridge)
 const IMAGE_URL = await window.electronAPI.getImageBaseUrl();
@@ -80,62 +84,62 @@ function renderCategories(state) {
 
 // --------- Додавання витрати (клік на «+») ---------
 
-/**
- * Парсинг суми з урахуванням коми або крапки як десяткового роздільника.
- * Повертає число або NaN.
- */
-function parseAmount(v) {
-    const n = Number(
-        String(v ?? "")
-            .trim()
-            .replace(",", ".")
-    );
-    return Number.isFinite(n) ? n : NaN;
-}
+// /**
+//  * Парсинг суми з урахуванням коми або крапки як десяткового роздільника.
+//  * Повертає число або NaN.
+//  */
+// function parseAmount(raw) {
+//   if (!raw) return NaN;
+//   const s = String(raw).replace(/[^\d]/g, "");
+//   if (!s) return NaN;
+//   return parseInt(s, 10);
+// }
+
+
 
 // Делегований обробник на весь документ:
 // відпрацьовує тільки для кліків по кнопці з класом .add-expense
 document.addEventListener("click", async (e) => {
-    const btn = e.target.closest(".add-expense");
-    if (!btn) return;
+  const btn = e.target.closest(".add-expense");
+  if (!btn) return;
 
-    const row = btn.closest(".category"); // 👈 виправили
-    if (!row) {
-        console.warn("[add-expense] row null");
-        return;
-    }
+  const row = btn.closest(".category");
+  if (!row) return;
 
-    const select = row.querySelector(".category-items"); // <select> з підкатегоріями
-    const amountInput = row.querySelector(".amount-input");
+  const select = row.querySelector(".category-items");
+  const amountInput = row.querySelector(".amount-input");
 
-    const categoryItemId = select?.value?.trim();
-    const amount = parseAmount(amountInput?.value);
+  const categoryItemId = select?.value?.trim();
+  const amount = parseAmount(amountInput?.value);
 
-    if (!categoryItemId) {
-        alert("Виберіть підкатегорію");
-        return;
-    }
-    if (!Number.isFinite(amount) || amount <= 0) {
-        alert("Некоректна сума");
-        return;
-    }
+  // ——— валідація без alert() ———
+  if (!categoryItemId) {
+    showRowError(row, "Виберіть підкатегорію");
+    reviveInput(amountInput);
+    return;
+  }
+  if (!Number.isFinite(amount) || amount <= 0) {
+    showRowError(row, "Некоректна сума");
+    reviveInput(amountInput);
+    return;
+  }
 
-    btn.disabled = true;
-    try {
-        const raw = await addExpense({ categoryItemId, amount }); // сервіс
-        console.log("raw", raw);
+  btn.disabled = true;
+  try {
+    const raw = await addExpense({ categoryItemId, amount });
 
-      //  const expense = createExpense(raw); // мінімальна модель
+    window.electronAPI.dispatch({
+      type: "ADD_EXPENSE_SUCCESS",
+      payload: { categoryId: raw.expenseCategoryId, amount },
+    });
 
-        window.electronAPI.dispatch({
-            type: "ADD_EXPENSE_SUCCESS",
-            payload: { categoryId: raw.expenseCategoryId, amount },
-        });
-        amountInput.value = "";
-    } catch (err) {
-        console.error(err);
-        alert("Не вдалося додати витрату.");
-    } finally {
-        btn.disabled = false;
-    }
+    amountInput.value = "";
+    amountInput.focus({ preventScroll: true }); // одразу готів до наступного вводу
+  } catch (err) {
+    console.error(err);
+    showRowError(row, "Не вдалося додати витрату");
+    reviveInput(amountInput);
+  } finally {
+    btn.disabled = false;
+  }
 });

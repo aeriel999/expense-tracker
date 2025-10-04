@@ -1,3 +1,5 @@
+import { parseAmount } from "../utils/parseAmount.js";
+
 export function renderCategory(category, IMAGE_URL) {
     //container
     const wrapper = document.createElement("div");
@@ -50,16 +52,68 @@ export function renderCategory(category, IMAGE_URL) {
 
     // input field for expense amount
     const amountInput = document.createElement("input");
-    amountInput.type = "number";
+    amountInput.type = "text";
+    amountInput.inputMode = "numeric";
+    amountInput.autocomplete = "off";
     amountInput.className = "amount-input";
     amountInput.placeholder = "Enter amount";
-    amountInput.min = "0";
-    amountInput.max = "10000";
-    amountInput.step = "0.01";
-    amountInput.disabled = true; // буде активне лише після вибору підкатегорії
+    amountInput.setAttribute("pattern", "^\\d+$");
+    amountInput.setAttribute("maxlength", "9");
+    amountInput.disabled = true; // активний після вибору підкатегорії
+
+    const amountWrap = document.createElement("div");
+    amountWrap.className = "amount-wrap";
+    amountWrap.appendChild(amountInput);
 
     dropdown.addEventListener("change", () => {
-        amountInput.disabled = !dropdown.value;
+        const hasItem = dropdown.value !== "" && dropdown.value != null; // '0' теж вважається валідним
+        amountInput.toggleAttribute("disabled", !hasItem);
+
+        const row = dropdown.closest(".category");
+        // прибрати inline-помилку, якщо була
+        row?.querySelector(".row-error")?.classList.remove("visible");
+
+        if (hasItem) {
+            amountInput.focus({ preventScroll: true });
+        } else {
+            amountInput.value = "";
+        }
+    });
+
+    // лише цифри + збереження каретки
+    amountInput.addEventListener("input", (e) => {
+        const el = e.target;
+        const start = el.selectionStart;
+        const before = el.value;
+        const after = before.replace(/[^\d]/g, "");
+        if (after !== before) {
+            el.value = after;
+            const delta = before.length - after.length;
+            const pos = Math.max(0, (start ?? after.length) - delta);
+            el.setSelectionRange(pos, pos);
+        }
+    });
+
+    // на blur — прибрати лідируючі нулі; 0/порожнє -> ''
+    amountInput.addEventListener(
+        "blur",
+        (e) => {
+            const el = e.target;
+            const n = parseAmount(el.value);
+            el.value = Number.isFinite(n) && n > 0 ? String(n) : "";
+        },
+        true
+    );
+
+    // Enter у полі — натискає кнопку "+"
+    amountInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            e.target
+                .closest(".category")
+                ?.querySelector(".add-expense")
+                ?.click();
+        }
     });
 
     // add button
@@ -81,7 +135,7 @@ export function renderCategory(category, IMAGE_URL) {
     // wrapper.appendChild(name);
     // wrapper.appendChild(value);
     wrapper.appendChild(dropdown);
-    wrapper.appendChild(amountInput);
+    wrapper.appendChild(amountWrap);
     wrapper.appendChild(addButton);
 
     return wrapper;
