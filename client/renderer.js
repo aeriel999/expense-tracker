@@ -6,6 +6,19 @@ import { addExpense } from "./features/expenses/expensesService.js"; // API: с�
 import { parseAmount } from "./utils/parseAmount.js";
 import { reviveInput } from "./utils/reviveInput.js";
 import { showRowError } from "./components/rowError.js";
+// CLIENT/renderer.js
+import { t, translateDOM } from './js/i18n.js';
+
+// Автопереклад елементів із data-i18n (необов'язково, безпечний виклик)
+window.addEventListener('DOMContentLoaded', () => {
+  translateDOM();
+
+  const dateEl = document.querySelector('[data-role="date-heading"]');
+  if (dateEl) {
+    const df = new Intl.DateTimeFormat('en-US', { dateStyle: 'long' });
+    dateEl.textContent = df.format(new Date()); // "October 7, 2025"
+  }
+});
 
 
 // ⬇️ Базовий URL для іконок/зображень із preload (через contextBridge)
@@ -114,12 +127,12 @@ document.addEventListener("click", async (e) => {
 
   // ——— валідація без alert() ———
   if (!categoryItemId) {
-    showRowError(row, "Виберіть підкатегорію");
+    showRowError(row, t('errors.selectSubcategory'));
     reviveInput(amountInput);
     return;
   }
   if (!Number.isFinite(amount) || amount <= 0) {
-    showRowError(row, "Некоректна сума");
+    showRowError(row, t('errors.invalidAmount'));
     reviveInput(amountInput);
     return;
   }
@@ -137,7 +150,7 @@ document.addEventListener("click", async (e) => {
     amountInput.focus({ preventScroll: true }); // одразу готів до наступного вводу
   } catch (err) {
     console.error(err);
-    showRowError(row, "Не вдалося додати витрату");
+    showRowError(row, t('errors.addExpenseFailed'));
     reviveInput(amountInput);
   } finally {
     btn.disabled = false;
