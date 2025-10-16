@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="../css/tokens.css" />
+        <link rel="stylesheet" href="../css/base.css" />
+        <link rel="stylesheet" href="../css/components.css" />
+    </head>
+    <body>
+        <header class="header">
+            <h1 id="current-date" data-role="date-heading"></h1>
+        </header>
+        <a id="back-btn" class="back-btn" href="../index.html">← Back</a>
+        <h1>Incomes</h1>
+
+        <section class="summary">
+            <div class="summary-card">
+                <h2>Total Income</h2>
+                <p id="total-income">0 UAH</p>
+            </div>
+        </section>
+
+        <section class="incomes-list">
+            <h3>All incomes</h3>
+            <ul id="income-list"></ul>
+        </section>
+
+        <script src="../js/incomesPage.js"></script>
+    </body>
+</html>
