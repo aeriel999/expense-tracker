@@ -5,7 +5,7 @@
 export async function fetchMainState() {
     try {
         // 1) Дістаємо базовий URL бекенду з preload (через IPC до main)
-        const BASE_URL = await window.electronAPI.getApiBaseUrl();
+        const BASE_URL = await window.electronAPI.getBaseUrl();
         console.log("[fetchCategories] BASE_URL:", BASE_URL); // ✅ дебаг
 
         // 2) Мінімальна перевірка конфігурації (щоб не зробити fetch(undefined))
@@ -13,7 +13,7 @@ export async function fetchMainState() {
 
         // 3) Формуємо повний шлях до ендпоінта
         //    (за потреби можна додати .replace(/\/+$/,'') для зрізання зайвих слешів)
-        const url = `${BASE_URL}/Category/get-list-of-categories-with-items-lists`;
+        const url = `${BASE_URL}api/Category/get-list-of-categories-with-items-lists`;
         console.log("[fetchCategories] URL:", url); // ✅ дебаг
 
         // 4) Власне запит

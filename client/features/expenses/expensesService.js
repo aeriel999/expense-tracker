@@ -17,12 +17,12 @@
  */
 export async function addExpense({ categoryItemId, amount }) {
   // 1) Отримуємо базовий URL API з preload (через IPC до main)
-  const BASE_URL = await window.electronAPI.getApiBaseUrl();
+  const BASE_URL = await window.electronAPI.getBaseUrl();
 
   if (!BASE_URL) throw new Error("API base URL not set");
 
   // 2) Формуємо повний маршрут до ендпоінта (за потреби заміни на свій)
-  const url = `${BASE_URL}/Expense/add-expense`; // змінити, якщо інший шлях на контролері
+  const url = `${BASE_URL}api/Expense/add-expense`; // змінити, якщо інший шлях на контролері
 
   // 3) HTTP POST із JSON-тілом. ASP.NET Core case-insensitive до назв полів (camelCase ок).
   const resp = await fetch(url, {

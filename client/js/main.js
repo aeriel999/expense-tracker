@@ -6,8 +6,7 @@ const store = require("../store/store");
 // ---------------------- Config ----------------------
 // Беремо з .env або дефолти; зрізаємо фінальні слеші, щоб не було "//api/..."
 // 🔧 Отримуємо API URL з .env або дефолтний
-const API_BASE_URL = process.env.API_BASE_URL;
-const IMAGE_BASE_URL = process.env.IMAGE_BASE_URL;
+const BASE_URL = process.env.BASE_URL;
 
 // (не обов’язково) зручно знати, чи дев-режим
 const isDev = !app.isPackaged;
@@ -23,8 +22,9 @@ ipcMain.on("redux:dispatch", (_event, action) => {
 });
 
 // Базові URL'и для рендера (preload → renderer)
-ipcMain.handle("get-api-base-url", () => API_BASE_URL);
-ipcMain.handle("get-image-base-url", () => IMAGE_BASE_URL);
+
+ipcMain.handle("get-base-url", () => BASE_URL);
+
 
 // Універсальна розсилка стану у всі відкриті вікна
 function broadcastState() {

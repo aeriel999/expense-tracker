@@ -10,7 +10,7 @@ export function renderCategory(category, IMAGE_URL) {
     icon.src =
         category.icon === null
             ? "assets/icons/default-icon.png"
-            : IMAGE_URL + category.icon;
+            : IMAGE_URL + "icons/" + category.icon;
     icon.alt = category.icon === null ? "icon" : category.icon;
     const iconWrapper = document.createElement("div");
     iconWrapper.className = "category-icon";

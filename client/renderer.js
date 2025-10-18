@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 // ⬇️ Базовий URL для іконок/зображень із preload (через contextBridge)
-const IMAGE_URL = await window.electronAPI.getImageBaseUrl();
+const BASE_URL = await window.electronAPI.getBaseUrl();
 
 // --------- Redux інтеграція: початковий рендер і підписка на зміни ---------
 
@@ -88,7 +88,7 @@ function renderCategories(state) {
 
   const categories = state.categories; // ← масив уже готових моделей
   categories.forEach(cat => {
-    const el = renderCategory(cat, IMAGE_URL);
+    const el = renderCategory(cat, BASE_URL);
     container.appendChild(el);
   });
 }
