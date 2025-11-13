@@ -7,7 +7,7 @@ const { contextBridge, ipcRenderer } = require("electron");
  *  - Конфіг: getApiBaseUrl / getImageBaseUrl
  *
  * ВАЖЛИВО: усі HTTP-запити (fetch...) робимо у файлах-сервісах з рендера
- *          (наприклад, features/categories/categoriesService.js, features/expenses/expensesService.js).
+ *          (наприклад, services/categories/categoriesService.js, services/expenses/expensesService.js).
  *          Preload не виконує HTTP — лише прокидає IPC до main.
  */
 contextBridge.exposeInMainWorld("electronAPI", {

@@ -180,39 +180,281 @@
     }
 }
 
-
 /* рядок категорії — батько для абсолютних елементів */
 .category {
     position: relative;
 }
 
 /* батько рядка (якщо ще не задано) */
-.category { position: relative; }
+.category {
+    position: relative;
+}
 
 /* контейнер поля суми */
 .amount-wrap {
-  position: relative;        /* якір для підказки */
-  display: flex;
-  align-items: center;
+    position: relative; /* якір для підказки */
+    display: flex;
+    align-items: center;
 }
 
 /* повідомлення про помилку — під інпутом праворуч */
 .amount-wrap .row-error {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  background: #fff3f3;
-  border: 1px solid #ffb3b3;
-  color: #9c1a1a;
-  padding: .25rem .5rem;
-  border-radius: .5rem;
-  font-size: .8125rem;
-  line-height: 1.1;
-  white-space: nowrap;
-  box-shadow: 0 1px 4px rgba(0,0,0,.05);
-  opacity: 0;
-  transform: translateY(4px);
-  pointer-events: none;
-  transition: opacity .15s ease, transform .15s ease;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: #fff3f3;
+    border: 1px solid #ffb3b3;
+    color: #9c1a1a;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
 }
-.amount-wrap .row-error.visible { opacity: 1; transform: translateY(0); }
+.amount-wrap .row-error.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================================
+   Incomes Page Styles
+   ================================ */
+
+/* Іконка категорії доходу */
+.income-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    object-fit: contain;
+}
+
+/* Ліва частина рядка з назвою і іконкою */
+.income-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Хедер */
+.header--with-banner {
+    padding-bottom: 0;
+}
+.header-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: space-between;
+}
+.header-banner {
+    width: 100%;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-top: 8px;
+    opacity: 0.9;
+}
+
+/* Контент */
+.content--narrow {
+    max-width: 820px;
+    margin: 0 auto;
+}
+
+/* ================================
+   Buttons
+   ================================ */
+
+/* Панель дій під датою */
+.actions-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin: 12px auto 24px;
+}
+
+/* Базова кнопка (і <a>, і <button>) */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 1px solid var(--border, #e2e2e2);
+    background: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    color: var(--text, #1f2937);
+    cursor: pointer;
+    /* REMOVE: transition: background 0.15s ease, filter 0.15s ease; */
+    /* ADD: плавніший ховер і клік */
+    transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+}
+
+.btn:hover {
+    background: #fafafa;
+}
+
+/* Іконка зліва (плюс) */
+.btn-icon-left {
+    width: 18px;
+    text-align: center;
+    font-weight: 700;
+}
+
+/* Основна кнопка */
+.btn-primary {
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    border-color: transparent;
+}
+
+/* REMOVE: старий ховер з фільтром
+.btn-primary:hover {
+    filter: brightness(0.95);
+}
+*/
+
+/* ADD: виразний ховер для primary */
+.btn-primary:hover {
+    background: #27802f;               /* трохи темніший */
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+}
+
+/* Вторинна (Back) */
+.btn-ghost {
+    background: #f7f7f7;
+    color: #1f2937;
+    border-color: #e2e2e2;
+}
+
+/* REMOVE: м’який ховер
+.btn-ghost:hover { background: #efefef; }
+*/
+
+/* ADD: виразний ховер для ghost */
+.btn-ghost:hover {
+    background: #ececec;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0,0,0,.08);
+}
+
+/* ADD: ефект натискання для всіх кнопок */
+.btn:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* ================================
+   Income List
+   ================================ */
+
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 24px;
+}
+
+.income-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    background: #fff;
+}
+
+/* REMOVE: базова лівa частина з baseline
+.income-left {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+}
+*/
+
+/* ADD: правильне вирівнювання іконки та тексту */
+.income-left {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.income-name {
+    font-weight: 600;
+}
+.income-amount {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.8;
+}
+
+.income-right {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.amount-input {
+    width: 120px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+}
+
+/* ================================
+   Forms & Cards
+   ================================ */
+
+.form-card { margin-top: 16px; }
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+}
+
+.form-actions { display: flex; gap: 8px; }
+
+.muted { opacity: 0.6; padding: 8px 0; }
+
+.single .card { max-width: 320px; }
+
+.summary-cards.single {
+    grid-template-columns: 1fr;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+/* Контейнер з 3-ма елементами */
+.top-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;      /* вирівнювання по вертикалі */
+    justify-items: center;    /* центрує в кожній колонці */
+    gap: 16px;
+    margin: 12px 0 20px;
+}
+
+/* Для маленьких екранів — у стовпчик */
+@media (max-width: 720px) {
+    .top-row { grid-template-columns: 1fr; }
+}
+
+/* На випадок відхилень у різних браузерах */
+.income-icon {
+    width: 32px;
+    height: 32px;
+    display: block;           /* прибирає візуальний “сплив” */
+    object-fit: contain;
+}

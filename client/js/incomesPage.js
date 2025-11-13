@@ -1,67 +1,92 @@
-// import { formatCurrency } from "../utils/formatCurrency.js";
+// js/incomesPage.js
+import { fetchIncomeCategoriesWithAmount } from "../services/incomes/incomesService.js";
+import { renderIncomeCategory } from "../components/incomeComponent.js";
 
-// window.addEventListener("DOMContentLoaded", () => {
-//     translateDOM();
+const CACHE_KEY = "incomes.categories.v1";
 
-//     const dateEl = document.querySelector('[data-role="date-heading"]');
-//     if (dateEl) {
-//         const df = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
-//         dateEl.textContent = df.format(new Date()); // "October 7, 2025"
-//     }
-// });
+function readCache() {
+    try {
+        return JSON.parse(localStorage.getItem(CACHE_KEY) || "null") || [];
+    } catch {
+        return [];
+    }
+}
+function writeCache(items) {
+    try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify(items));
+    } catch {}
+}
 
-// document.addEventListener("DOMContentLoaded", async () => {
-//     const list = document.getElementById("income-list");
-//     const totalEl = document.getElementById("total-income");
-//     const monthEl = document.getElementById("month");
-//     const backBtn = document.getElementById("back-btn");
+const listEl = document.getElementById("income-list");
+const totalEl = document.getElementById("total-income");
+const dateEl = document.getElementById("current-date");
 
-//     // Повернення на головну
+// якщо кнопка є в html — блокуємо (крок 3 зробимо пізніше)
+const addCatBtn = document.getElementById("add-income-category");
+if (addCatBtn) {
+    addCatBtn.disabled = true;
+    addCatBtn.title = "Will be added in step 3";
+}
 
-//     if (backBtn) {
-//         backBtn.addEventListener("click", () => {
-//             window.location.href = "../index.html"; // шлях відносно pages/incomes.html
-//         });
-//     }
+function renderCurrentMonth() {
+    const now = new Date();
+    dateEl.textContent = now.toLocaleString(undefined, {
+        month: "long",
+        year: "numeric",
+    });
+}
 
-//     // Додатково: Esc або Alt+←
-//     document.addEventListener("keydown", (e) => {
-//         if (e.key === "Escape" || (e.key === "ArrowLeft" && e.altKey)) {
-//             window.location.href = "../index.html";
-//         }
-//     });
+function updateTotalFromDOM() {
+    const nums = Array.from(document.querySelectorAll(".income-amount")).map(
+        (x) => Number(x.textContent.replace(/[^\d.]/g, "")) || 0
+    );
+    totalEl.textContent = `${nums.reduce((a, b) => a + b, 0).toFixed(2)} UAH`;
+}
 
-//     // Встановлюємо поточний місяць
-//     const now = new Date();
-//     const monthName = now.toLocaleString("en-US", {
-//         month: "long",
-//         year: "numeric",
-//     });
-//     monthEl.textContent = monthName;
+// 🔹 УНІВЕРСАЛЬНИЙ рендер масиву категорій у DOM
+function renderFrom(items) {
+    listEl.innerHTML = "";
+    if (!items.length) {
+        listEl.innerHTML = `<li class="empty">No income categories</li>`;
+        totalEl.textContent = "0.00 UAH";
+        return;
+    }
 
-//     // Завантаження інкамсів
-//     const incomes = await fetchIncomesByMonth(now);
+    items.forEach((cat) => {
+        const row = renderIncomeCategory(cat, ({ amount, row, input }) => {
+            // локальне оновлення суми в рядку + перерахунок тоталу
+            const amtEl = row.querySelector(".income-amount");
+            const current =
+                Number(amtEl.textContent.replace(/[^\d.]/g, "")) || 0;
+            amtEl.textContent = `${(current + amount).toFixed(2)} UAH`;
+            input.value = "";
+            updateTotalFromDOM();
+        });
+        listEl.appendChild(row);
+    });
 
-//     if (!incomes.length) {
-//         list.innerHTML = "<li>No incomes for this month</li>";
-//         return;
-//     }
+    updateTotalFromDOM();
+}
 
-//     let total = 0;
-//     incomes.forEach((i) => {
-//         total += i.amount;
-//         const li = document.createElement("li");
-//         li.classList.add("income-item");
-//         li.innerHTML = `
-//       <div class="income-row">
-//         <span class="category">${i.categoryName}</span>
-//         <span class="title">${i.title}</span>
-//         <span class="amount">${formatCurrency(i.amount)} UAH</span>
-//         <span class="date">${i.date}</span>
-//       </div>
-//     `;
-//         list.appendChild(li);
-//     });
+// 🔹 Завантаження з сервера + запис у кеш + рендер
+async function loadAndRender() {
+    listEl.innerHTML = `<li class="loading">Loading…</li>`;
+    const items = await fetchIncomeCategoriesWithAmount().catch(() => []);
+    writeCache(items);
+    renderFrom(items);
+}
 
-//     totalEl.textContent = formatCurrency(total) + " UAH";
-// });
+function init() {
+    renderCurrentMonth();
+
+    // 1) миттєво показуємо кеш (якщо є)
+    const cached = readCache();
+    if (cached.length) renderFrom(cached);
+
+    // 2) оновлюємо з бекенду
+    loadAndRender();
+}
+
+document.readyState === "loading"
+    ? document.addEventListener("DOMContentLoaded", init)
+    : init();

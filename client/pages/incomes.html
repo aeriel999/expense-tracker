@@ -1,31 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Expense Tracker</title>
-        <link rel="stylesheet" href="../css/tokens.css" />
-        <link rel="stylesheet" href="../css/base.css" />
-        <link rel="stylesheet" href="../css/components.css" />
-    </head>
-    <body>
-        <header class="header">
-            <h1 id="current-date" data-role="date-heading"></h1>
-        </header>
-        <a id="back-btn" class="back-btn" href="../index.html">← Back</a>
-        <h1>Incomes</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Expense Tracker — Incomes</title>
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+  </head>
+  <body>
+    <header class="header">
+        <h1 id="current-date" data-role="date-heading"></h1>
+    </header>
 
-        <section class="summary">
-            <div class="summary-card">
-                <h2>Total Income</h2>
-                <p id="total-income">0 UAH</p>
-            </div>
+    <main class="content">
+    
+         <section class="top-row">
+            <button id="add-income-category" class="btn btn-primary">
+                <span class="btn-icon-left">+</span> Add Income Category
+            </button>
+     <section class="summary-cards single">
+                    <div class="card" id="total-income-card">
+                        <img src="../assets/icons/Income.png" alt="Income" />
+                        <div class="label">Total Income</div>
+                        <div class="value" id="total-income">0.00 UAH</div>
+                    </div>
+                </section>
+             <a id="back-btn" class="btn btn-ghost" href="../index.html">Back To Main Page -></a>
         </section>
+    
 
-        <section class="incomes-list">
-            <h3>All incomes</h3>
-            <ul id="income-list"></ul>
-        </section>
+      <section class="incomes-list">
+        <h3>Add income</h3>
+        <ul id="income-list"></ul>
+      </section>
 
-        <script src="../js/incomesPage.js"></script>
-    </body>
+      <section id="add-income-category-form-slot"></section>
+    </main>
+
+    <!-- ВАЖЛИВО: module -->
+    <script type="module" src="../js/incomesPage.js"></script>
+  </body>
 </html>
