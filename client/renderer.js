@@ -6,8 +6,8 @@ import { addExpense } from "./services/expenses/expensesService.js"; // API: с�
 import { parseAmount } from "./utils/parseAmount.js";
 import { reviveInput } from "./utils/reviveInput.js";
 import { showRowError } from "./components/rowError.js";
-// CLIENT/renderer.js
 import { t, translateDOM } from "./js/i18n.js";
+
 
 // Автопереклад елементів із data-i18n (необов'язково, безпечний виклик)
 window.addEventListener("DOMContentLoaded", () => {

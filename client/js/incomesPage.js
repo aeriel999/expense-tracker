@@ -1,6 +1,7 @@
-// js/incomesPage.js
 import { fetchIncomeCategoriesWithAmount } from "../services/incomes/incomesService.js";
 import { renderIncomeCategory } from "../components/incomeComponent.js";
+import { ROUTES } from "../config/routes.js";
+
 
 const CACHE_KEY = "incomes.categories.v1";
 
@@ -90,3 +91,13 @@ function init() {
 document.readyState === "loading"
     ? document.addEventListener("DOMContentLoaded", init)
     : init();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const backBtn = document.querySelector('[data-action="go-home"]');
+    if (backBtn) {
+        backBtn.addEventListener("click", (e) => {
+            e.preventDefault();      // щоб не було переходу по href=""
+            window.location.href = ROUTES.HOME;
+        });
+    }
+});
