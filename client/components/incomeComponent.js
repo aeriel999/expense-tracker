@@ -1,35 +1,41 @@
 import { parseAmount } from "../utils/parseAmount.js";
+import { UI_CONFIG } from "../config/ui.js";
+import { ASSETS } from "../config/assets.js";
 
-export function renderIncomeCategory(category, onAdd) {
+
+export function renderIncomeCategory(incomeCategory, onAdd) {
   const li = document.createElement("li");
   li.className = "income-row";
-  li.dataset.categoryId = category.id;
+  li.dataset.categoryId = incomeCategory.id;
 
-  // 🔹 іконка
-  const iconBase = window.electronAPI.iconsUrl?.() ?? "../assets/icons";
+  // icon
   const icon = document.createElement("img");
   icon.className = "income-icon";
-  icon.src = category.icon
-    ? `${iconBase}/${category.icon}`
-    : "../assets/icons/default-icon.png";
-  icon.alt = category.name;
+  icon.src =
+        incomeCategory.icon === null
+            ? ASSETS.DEFAULT_INCOME_ICON
+            : IMAGE_URL + ASSETS.ICONS_BASE + incomeCategory.icon;
+  icon.alt = incomeCategory.name;
 
   const left = document.createElement("div");
   left.className = "income-left";
   left.appendChild(icon);
 
+  //income name
   const name = document.createElement("span");
   name.className = "income-name";
-  name.textContent = category.name;
+  name.textContent = incomeCategory.name;
 
+  //income amount
   const amount = document.createElement("span");
   amount.className = "income-amount";
-  amount.textContent = `${(Number(category.amount) || 0).toFixed(2)} UAH`;
+  const value = Number(incomeCategory.amount);
+  amount.textContent = `${value.toFixed(2)} ${UI_CONFIG.DEFAULT_CURRENCY}`;
 
   left.appendChild(name);
   left.appendChild(amount);
 
-  // 🔹 праворуч — інпут + кнопка
+  // input + btn
   const right = document.createElement("div");
   right.className = "income-right";
 
@@ -38,7 +44,7 @@ export function renderIncomeCategory(category, onAdd) {
   input.inputMode = "numeric";
   input.placeholder = "Amount";
   input.className = "amount-input";
-  input.maxLength = 9;
+  input.maxLength = UI_CONFIG.AMOUNT_INPUT_MAX_LENGTH;
 
   input.addEventListener("input", (e) => {
     const el = e.target;
@@ -52,10 +58,12 @@ export function renderIncomeCategory(category, onAdd) {
       el.setSelectionRange(pos, pos);
     }
   });
+
   input.addEventListener("blur", (e) => {
     const n = parseAmount(e.target.value);
     e.target.value = Number.isFinite(n) && n > 0 ? String(n) : "";
   });
+
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -63,22 +71,39 @@ export function renderIncomeCategory(category, onAdd) {
     }
   });
 
-  const addBtn = document.createElement("button");
-  addBtn.className = "btn btn-icon";
-  addBtn.title = "Add income";
-  addBtn.innerHTML = `<img src="../assets/icons/add_value.png" alt="+">`;
+  // Enter -> натискає кнопку "+"
+  input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+          e.preventDefault();
+          addButton.click();
+      }
+  });
 
-  addBtn.addEventListener("click", () => {
-    const n = parseAmount(input.value);
-    if (!Number.isFinite(n) || n <= 0) {
-      input.focus();
-      return;
-    }
-    onAdd?.({ categoryId: category.id, amount: n, row: li, input });
+  // Add income button
+  const addButton = document.createElement("button");
+  addButton.className = "add-income-btn";
+  addButton.title = "Add income";
+
+  // Plus icon
+  const plusIcon = document.createElement("img");
+  plusIcon.src = ASSETS.ADD_INCOME_ICON;   
+  plusIcon.alt = "add value";
+
+  addButton.appendChild(plusIcon);
+
+  // click handler
+  addButton.addEventListener("click", () => {
+      const n = parseAmount(input.value);
+      if (!Number.isFinite(n) || n <= 0) {
+          input.focus();
+          return;
+      }
+      onAdd?.({ categoryId: incomeCategory.id, amount: n, row: li, input });
   });
 
   right.appendChild(input);
-  right.appendChild(addBtn);
+  right.appendChild(addButton);
+
 
   li.appendChild(left);
   li.appendChild(right);

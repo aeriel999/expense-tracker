@@ -1,0 +1,5 @@
+export const UI_CONFIG = {
+    ITEMS_PER_PAGE: 20,
+    DEFAULT_CURRENCY: "UAH", 
+    AMOUNT_INPUT_MAX_LENGTH: 9,   
+};
